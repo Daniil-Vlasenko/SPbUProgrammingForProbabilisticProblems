@@ -152,11 +152,76 @@ void OptimizationMethodProb::optimization() {
             sequenceOfX_i.push_back(newX);
             numberOfIterationsSinceTheLastImprovement = 0;
 
-            std::cout << "i: " << numberOfIterations << std::endl << "F_i: " << newF << std::endl << "X_i: ";
-            for(int i = 0; i < dimensions; ++i) {
-                std::cout << newX[i] << " ";
-            }
-            std::cout << std::endl;
+//            std::cout << "i: " << numberOfIterations << std::endl << "F_i: " << newF << std::endl << "X_i: ";
+//            for(int i = 0; i < dimensions; ++i) {
+//                std::cout << newX[i] << " ";
+//            }
+//            std::cout << std::endl;
         }
+    }
+}
+//----------------------------------------------------------------------------------------------------
+OptimizationMethodGrad::OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
+                                               TerminationMethod *terminationMethod)
+: OptimizationMethod(function, x_0, area, terminationMethod) {
+    p.resize(function->getDimensions(), 0);
+    a = 0;
+}
+
+double OptimizationMethodGrad::partialDerivative(Function *function, std::vector<double> x, int axis, double deltaX) {
+    std::vector<double> x1 = x, x2 = x;
+    x1[axis] -= deltaX, x2[axis] += deltaX;
+    return (function->calculation(x2) - function->calculation(x1)) / ( 2 * deltaX);
+}
+
+std::vector<double> OptimizationMethodGrad::antiGradient(Function *function, std::vector<double> x, double deltaX) {
+    std::vector<double> result;
+    int dimensions = function->getDimensions();
+    for(int i = 0; i < dimensions; ++i) {
+        result.push_back(-partialDerivative(function, x, i, deltaX));
+    }
+    return result;
+}
+
+void OptimizationMethodGrad::pCheck() {
+    std::vector<std::pair<double, double>> box = area.getBox();
+    std::vector<double> x_n = sequenceOfX_i.back();
+    int dimensions = function->getDimensions();
+    for(int i = 0; i < dimensions; ++i) {
+        p[i] = x_n[i] + p[i] < box[i].first ? box[i].first - x_n[i] : p[i];
+        p[i] = x_n[i] + p[i] > box[i].second ? box[i].second - x_n[i] : p[i];
+    }
+}
+
+std::vector<double> OptimizationMethodGrad::linearSearchOfMin(Function *function, std::vector<double> x,
+                                                              std::vector<double> p, double eps) {
+
+}
+
+void OptimizationMethodGrad::optimization() {
+    numberOfIterations = 0;
+    numberOfIterationsSinceTheLastImprovement = 0;
+    int dimensions = function->getDimensions();
+    std::vector<std::pair<double, double>> box = area.getBox();
+    sequenceOfF_i.push_back(function->calculation(sequenceOfX_i[0]));
+    while(!terminationMethod->termination(this)) {
+        ++numberOfIterations;
+        ++numberOfIterationsSinceTheLastImprovement;
+        std::vector<double> newX;
+
+        // Поиск подходящего p.
+        p = antiGradient(function, function->getX());
+        double minLength = box[0].second - box[0].first;
+        for(int i = 1; i < dimensions; ++i) {
+            minLength = box[i].second - box[i].first < minLength ? box[i].second - box[i].first : minLength;
+        }
+        for(int i = 0; i < dimensions; ++i) {
+            p[i] *= minLength / 10;
+        }
+        pCheck();
+
+        
+
+
     }
 }

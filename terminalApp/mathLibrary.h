@@ -101,7 +101,7 @@ public:
     virtual void optimization() = 0;
 };
 
-class OptimizationMethodProb : public OptimizationMethod{
+class OptimizationMethodProb : public OptimizationMethod {
 private:
     unsigned seed;
     std::default_random_engine generator;
@@ -114,6 +114,26 @@ public:
     OptimizationMethodProb() = default;
     OptimizationMethodProb(Function *function, std::vector<double> x_0, Area area,
                            TerminationMethod *terminationMethod);
+    void optimization() override;
+};
+
+class  OptimizationMethodGrad : public OptimizationMethod {
+private:
+    std::vector<double> p;
+    double a;
+
+public:
+    OptimizationMethodGrad() = default;
+    OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
+                           TerminationMethod *terminationMethod);
+    void pCheck();
+    double partialDerivative(Function *function, std::vector<double> x, int axis, double deltaX = pow(10, -5));
+    std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX = pow(10, -5));
+    std::vector<double> linearSearchOfMin(Function *function, std::vector<double> x, std::vector<double> p,
+                                          double eps = pow(10, -5));
+    // Пусть алгоритм будет такой. Считаем p, умножаем его на 1/10 от самой короткой длины стороны области минимизации,
+    // затем укорачиваем его, если он вылазит за область. Далее ищем подходящий а в этом направлении линейным методом,
+    // деля уччасток с шагом eps.
     void optimization() override;
 };
 
