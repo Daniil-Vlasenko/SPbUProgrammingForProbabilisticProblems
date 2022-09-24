@@ -168,17 +168,19 @@ OptimizationMethodGrad::OptimizationMethodGrad(Function *function, std::vector<d
     a = 0;
 }
 
-double OptimizationMethodGrad::partialDerivative(Function *function, std::vector<double> x, int axis, double deltaX) {
+double OptimizationMethodGrad::partialDerivative(int axis, double deltaX) {
+    std::vector<double> x = sequenceOfX_i.back();
     std::vector<double> x1 = x, x2 = x;
     x1[axis] -= deltaX, x2[axis] += deltaX;
     return (function->calculation(x2) - function->calculation(x1)) / ( 2 * deltaX);
 }
 
-std::vector<double> OptimizationMethodGrad::antiGradient(Function *function, std::vector<double> x, double deltaX) {
+std::vector<double> OptimizationMethodGrad::antiGradient(double deltaX) {
+    std::vector<double> x = sequenceOfX_i.back();
     std::vector<double> result;
     int dimensions = function->getDimensions();
     for(int i = 0; i < dimensions; ++i) {
-        result.push_back(-partialDerivative(function, x, i, deltaX));
+        result.push_back(-partialDerivative(i, deltaX));
     }
     return result;
 }
@@ -193,35 +195,98 @@ void OptimizationMethodGrad::pCheck() {
     }
 }
 
-std::vector<double> OptimizationMethodGrad::linearSearchOfMin(Function *function, std::vector<double> x,
-                                                              std::vector<double> p, double eps) {
+void OptimizationMethodGrad::linearSearchOfMin(double eps) {
+    std::vector<double> x_n = sequenceOfX_i.back();
+    int dimensions = function->getDimensions();
+    std::vector<std::pair<double, double>> box = area.getBox();
+    double maxLength = 0;
+    for(int i = 0; i < dimensions; ++i) {
+        maxLength = box[i].second - box[i].first > maxLength ? box[i].second - box[i].first : maxLength;
+    }
+    int steps = maxLength / eps;
 
+    std::vector<double> minX = x_n, tmpX = x_n;
+    double tmpF;
+    double minF = function->calculation(x_n);
+    for(int i = 0; i < steps; ++i) {
+        for(int j = 0; j < dimensions; ++j) {
+            tmpX[j] += eps * p[j];
+        }
+        if(minF > (tmpF = function->calculation(tmpX))) {
+            minF = tmpF;
+            minX = tmpX;
+        }
+    }
+
+    sequenceOfX_i.push_back(minX);
+    sequenceOfF_i.push_back(minF);
+}
+
+void OptimizationMethodGrad::dichotomyMethod(double eps) {
+    std::vector<double> x_n = sequenceOfX_i.back();
+    int dimensions = function->getDimensions();
+    double l = 0, r = 1, m, m1, m2;
+    while(r - l > eps) {
+        m = (l + r) / 2, m1 = m - eps / 2, m2 = m + eps / 2;
+        std::vector<double> x1 = x_n, x2 = x_n;
+        for(int i = 0; i < dimensions; ++i) {
+            x1[i] = x_n[i] + p[i] * m1;
+            x2[i] = x_n[i] + p[i] * m2;
+        }
+        double F1 = function->calculation(x1), F2 = function->calculation(x2);
+        if ((F2 - F1) / eps > 0) {
+            r = m;
+        }
+        else {
+            l = m;
+        }
+    }
+    m = (l + r) / 2;
+    std::vector<double> newX = x_n;
+    for(int i = 0; i < dimensions; ++i) {
+        newX[i] = x_n[i] + p[i] * m;
+    }
+    sequenceOfX_i.push_back(newX);
+    sequenceOfF_i.push_back(function->calculation(newX));
 }
 
 void OptimizationMethodGrad::optimization() {
     numberOfIterations = 0;
     numberOfIterationsSinceTheLastImprovement = 0;
+    std::vector<double> x_n = sequenceOfX_i.back();
     int dimensions = function->getDimensions();
     std::vector<std::pair<double, double>> box = area.getBox();
     sequenceOfF_i.push_back(function->calculation(sequenceOfX_i[0]));
     while(!terminationMethod->termination(this)) {
         ++numberOfIterations;
         ++numberOfIterationsSinceTheLastImprovement;
-        std::vector<double> newX;
 
-        // Поиск подходящего p.
-        p = antiGradient(function, function->getX());
-        double minLength = box[0].second - box[0].first;
-        for(int i = 1; i < dimensions; ++i) {
-            minLength = box[i].second - box[i].first < minLength ? box[i].second - box[i].first : minLength;
+        // Поиск антиградиента p.
+        p = antiGradient();
+        // Растягиваем р до границы области минимизации.
+        double tmp = 0;
+        for(int i = 0; i < dimensions; ++i) {
+            tmp += p[i] * p[i];
         }
         for(int i = 0; i < dimensions; ++i) {
-            p[i] *= minLength / 10;
+            p[i] /= std::sqrt(tmp);
         }
+        double minFraction = MAXFLOAT;
+        for(int i = 0; i < dimensions; ++i) {
+            if(p[i] > 0) {
+                minFraction = (tmp = std::abs((box[i].second - x_n[i])/p[i])) < minFraction ? tmp : minFraction;
+            }
+            else {
+                minFraction = (tmp = std::abs((x_n[i] - box[i].first)/p[i])) < minFraction ? tmp : minFraction;
+            }
+        }
+        for(int i = 0; i < dimensions; ++i) {
+            p[i] *= minFraction;
+        }
+        // Укорачиваем p чере проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
         pCheck();
 
-        
-
-
+        // Поиск минимума в направлении p через линейный поиск.
+        dichotomyMethod();
     }
 }
