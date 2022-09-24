@@ -76,6 +76,27 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+//class TerminationMethodProb4 : public TerminationMethod{
+//public:
+//    TerminationMethodProb4() = default;
+//    explicit TerminationMethodProb4(double eps);
+//    bool termination(OptimizationMethod *optimizationMethod) override;
+//};
+
+class TerminationMethodProb5 : public TerminationMethod{
+public:
+    TerminationMethodProb5() = default;
+    explicit TerminationMethodProb5(double eps);
+    bool termination(OptimizationMethod *optimizationMethod) override;
+};
+
+class TerminationMethodProb6 : public TerminationMethod{
+public:
+    TerminationMethodProb6() = default;
+    explicit TerminationMethodProb6(double eps);
+    bool termination(OptimizationMethod *optimizationMethod) override;
+};
+
 class OptimizationMethod {
 //    friend bool TerminationMethod::termination(OptimizationMethod &optimizationMethod);
 protected:
@@ -126,7 +147,7 @@ public:
     OptimizationMethodGrad() = default;
     OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
                            TerminationMethod *terminationMethod);
-    void pCheck();
+    void pCorrect();
     double partialDerivative(int axis, double deltaX = pow(10, -5));
     std::vector<double> antiGradient(double deltaX = pow(10, -5));
     void linearSearchOfMin(double eps = pow(10, -2));

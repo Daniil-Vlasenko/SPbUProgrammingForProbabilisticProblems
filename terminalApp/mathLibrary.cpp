@@ -56,11 +56,48 @@ bool TerminationMethodProb2::termination(OptimizationMethod *optimizationMethod)
     return optimizationMethod->getNumberOfIterations() > maxNumberOfIterations;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodProb3::TerminationMethodProb3(int maxNumberOfIterations) :
-TerminationMethod(0, maxNumberOfIterations) {}
+TerminationMethodProb3::TerminationMethodProb3(int maxNumberOfIterations)
+: TerminationMethod(0, maxNumberOfIterations) {}
 
 bool TerminationMethodProb3::termination(OptimizationMethod *optimizationMethod) {
     return optimizationMethod->getNumberOfIterationsSinceTheLastImprovement() > maxNumberOfIterations;
+}
+//----------------------------------------------------------------------------------------------------
+//TerminationMethodProb4::TerminationMethodProb4(double eps)
+//: TerminationMethod(eps, 100000) {}
+//
+//bool TerminationMethodProb4::termination(OptimizationMethod *optimizationMethod) {
+//    std::vector<double> grad =
+//    return ;
+//}
+//----------------------------------------------------------------------------------------------------
+TerminationMethodProb5::TerminationMethodProb5(double eps)
+: TerminationMethod(eps, 100000) {}
+
+bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod) {
+    std::vector<std::vector<double>> sequenceOfX_i = optimizationMethod->getSequenceOfX_i();
+    int size = sequenceOfX_i.size();
+    if(size == 1)
+        return false;
+    int dimensions = optimizationMethod->getFunction()->getDimensions();
+    std::vector<double> x1 = sequenceOfX_i[size - 1], x2 = sequenceOfX_i[size - 2];
+    double tmp = 0;
+    for(int i = 0; i < dimensions; ++i) {
+        x1[i] -= x2[i];
+        tmp += x1[i] * x1[i];
+    }
+    return std::sqrt(tmp) > eps;
+}
+//----------------------------------------------------------------------------------------------------
+TerminationMethodProb6::TerminationMethodProb6(double eps)
+: TerminationMethod(eps, 100000) {};
+
+bool TerminationMethodProb6::termination(OptimizationMethod *optimizationMethod) {
+    int size = optimizationMethod->getSequenceOfF_i().size();
+    if(size == 1)
+        return false;
+    std::vector<double> sequenceOfF_i = optimizationMethod->getSequenceOfF_i();
+    return (std::abs((sequenceOfF_i[size - 1] - sequenceOfF_i[size - 2]) / sequenceOfF_i[size - 2]) > eps);
 }
 //----------------------------------------------------------------------------------------------------
 OptimizationMethod::OptimizationMethod(Function *function, std::vector<double> x_0, Area aria,
@@ -185,13 +222,46 @@ std::vector<double> OptimizationMethodGrad::antiGradient(double deltaX) {
     return result;
 }
 
-void OptimizationMethodGrad::pCheck() {
+void OptimizationMethodGrad::pCorrect() {
     std::vector<std::pair<double, double>> box = area.getBox();
     std::vector<double> x_n = sequenceOfX_i.back();
     int dimensions = function->getDimensions();
+
+    // Проверяем нужно укоротить или удлинить вектор.
+    bool isVectorInTheArea = true;
     for(int i = 0; i < dimensions; ++i) {
-        p[i] = x_n[i] + p[i] < box[i].first ? box[i].first - x_n[i] : p[i];
-        p[i] = x_n[i] + p[i] > box[i].second ? box[i].second - x_n[i] : p[i];
+        if(x_n[i] + p[i] < box[i].first || x_n[i] + p[i] > box[i].second) {
+            isVectorInTheArea = false;
+        }
+    }
+
+    // Укорачиваем вектор через проекцию, если необходимо.
+    if(!isVectorInTheArea)
+        for(int i = 0; i < dimensions; ++i) {
+            p[i] = x_n[i] + p[i] < box[i].first ? box[i].first - x_n[i] : p[i];
+            p[i] = x_n[i] + p[i] > box[i].second ? box[i].second - x_n[i] : p[i];
+        }
+    // Удлиняем вектор до конца области, если он лежит внутри области.
+    else {
+        double tmp = 0;
+        for(int i = 0; i < dimensions; ++i) {
+            tmp += p[i] * p[i];
+        }
+        for(int i = 0; i < dimensions; ++i) {
+            p[i] /= std::sqrt(tmp);
+        }
+        double minFraction = MAXFLOAT;
+        for(int i = 0; i < dimensions; ++i) {
+            if(p[i] > 0) {
+                minFraction = (tmp = std::abs((box[i].second - x_n[i]) / p[i])) < minFraction ? tmp : minFraction;
+            }
+            else {
+                minFraction = (tmp = std::abs((x_n[i] - box[i].first) / p[i])) < minFraction ? tmp : minFraction;
+            }
+        }
+        for(int i = 0; i < dimensions; ++i) {
+            p[i] *= minFraction;
+        }
     }
 }
 
@@ -253,39 +323,14 @@ void OptimizationMethodGrad::dichotomyMethod(double eps) {
 void OptimizationMethodGrad::optimization() {
     numberOfIterations = 0;
     numberOfIterationsSinceTheLastImprovement = 0;
-    std::vector<double> x_n = sequenceOfX_i.back();
-    int dimensions = function->getDimensions();
-    std::vector<std::pair<double, double>> box = area.getBox();
-    sequenceOfF_i.push_back(function->calculation(sequenceOfX_i[0]));
     while(!terminationMethod->termination(this)) {
         ++numberOfIterations;
         ++numberOfIterationsSinceTheLastImprovement;
 
         // Поиск антиградиента p.
         p = antiGradient();
-        // Растягиваем р до границы области минимизации.
-        double tmp = 0;
-        for(int i = 0; i < dimensions; ++i) {
-            tmp += p[i] * p[i];
-        }
-        for(int i = 0; i < dimensions; ++i) {
-            p[i] /= std::sqrt(tmp);
-        }
-        double minFraction = MAXFLOAT;
-        for(int i = 0; i < dimensions; ++i) {
-            if(p[i] > 0) {
-                minFraction = (tmp = std::abs((box[i].second - x_n[i])/p[i])) < minFraction ? tmp : minFraction;
-            }
-            else {
-                minFraction = (tmp = std::abs((x_n[i] - box[i].first)/p[i])) < minFraction ? tmp : minFraction;
-            }
-        }
-        for(int i = 0; i < dimensions; ++i) {
-            p[i] *= minFraction;
-        }
         // Укорачиваем p чере проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
-        pCheck();
-
+        pCorrect();
         // Поиск минимума в направлении p через линейный поиск.
         dichotomyMethod();
     }
