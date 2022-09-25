@@ -6,7 +6,7 @@ int main() {
     std::pair<double, double> x2(-5, 5);
     std::vector<std::pair<double, double>> box = {x1, x2};
     Area aria(box);
-    Function *function = new Function1();
+    Function *function = new Function3();
 
     // Стохастический метод.
 //    TerminationMethod *terminationMethod = new TerminationMethodProb1(pow(10, -6));

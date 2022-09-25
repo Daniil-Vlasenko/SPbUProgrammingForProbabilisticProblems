@@ -23,6 +23,31 @@ double Function1::calculation(std::vector<double> x) {
     return F;
 }
 //----------------------------------------------------------------------------------------------------
+Function2::Function2() : Function(3) {}
+
+double Function2::calculation(std::vector<double> x) {
+    this->x = x;
+    F = (x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + 8) * (x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + 8) -
+            36 * (x[0] * x[0] + x[1] * x[1]);
+    return F;
+}
+//----------------------------------------------------------------------------------------------------
+Function3::Function3() : Function(2) {}
+
+double Function3::calculation(std::vector<double> x) {
+    this->x = x;
+    F = x[0] * x[0] + x[1] * std::sin(x[1]) * std::cos(x[1]);
+    return F;
+}
+//----------------------------------------------------------------------------------------------------
+Function4::Function4() : Function(4) {}
+
+double Function4::calculation(std::vector<double> x) {
+    this->x = x;
+    F = x[0] * x[0] + x[1] * x[1] + x[2] * x[2] - x[3];
+    return F;
+}
+//----------------------------------------------------------------------------------------------------
 Area::Area(std::vector<std::pair<double, double>> box) : box(box) {}
 
 std::vector<std::pair<double, double>> Area::getBox() {

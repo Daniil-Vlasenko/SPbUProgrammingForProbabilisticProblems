@@ -23,7 +23,25 @@ public:
 class Function1 : public Function {
 public:
     Function1();
-    double calculation(std::vector<double> x) override; // (x+1)^2 + (y+1)^2
+    double calculation(std::vector<double> x) override; // F = (x+1)^2 + (y+1)^2
+};
+
+class Function2 : public Function {
+public:
+    Function2();
+    double calculation(std::vector<double> x) override; // F = (x^2 + y^2 + z^2 + 3^2 - 1^2)^2 - 4 * 3^2 * (x^2+y^2)
+};
+
+class Function3 : public Function {
+public:
+    Function3();
+    double calculation(std::vector<double> x) override; // F = x^2 + y * sin(y) * cos(y)
+};
+
+class Function4 : public Function {
+public:
+    Function4();
+    double calculation(std::vector<double> x) override; // F = x^2 * y^2 * z^2 - t
 };
 
 class Area {
