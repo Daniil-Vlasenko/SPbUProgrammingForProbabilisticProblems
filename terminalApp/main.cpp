@@ -16,8 +16,9 @@ int main() {
 //    optimizationMethod->optimization();
     // Стохастический метод.
     // Градиент.
-    TerminationMethod *terminationMethod = new TerminationMethodProb5(pow(10, -6));
-//    TerminationMethod *terminationMethod = new TerminationMethodProb6(pow(10, -6));
+    TerminationMethod *terminationMethod = new TerminationMethodProb4(pow(10, -4));
+//    TerminationMethod *terminationMethod = new TerminationMethodProb5(pow(10, -4));
+//    TerminationMethod *terminationMethod = new TerminationMethodProb6(pow(10, -4));
     OptimizationMethodGrad optimizationMethodGrad(function, x_0, aria, terminationMethod);
     optimizationMethodGrad.optimization();
 

@@ -76,12 +76,12 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-//class TerminationMethodProb4 : public TerminationMethod{
-//public:
-//    TerminationMethodProb4() = default;
-//    explicit TerminationMethodProb4(double eps);
-//    bool termination(OptimizationMethod *optimizationMethod) override;
-//};
+class TerminationMethodProb4 : public TerminationMethod{
+public:
+    TerminationMethodProb4() = default;
+    explicit TerminationMethodProb4(double eps);
+    bool termination(OptimizationMethod *optimizationMethod) override;
+};
 
 class TerminationMethodProb5 : public TerminationMethod{
 public:
@@ -151,12 +151,12 @@ public:
     void linearSearchOfMin(double eps = pow(10, -2));
     std::vector<std::pair<std::vector<double>, std::vector<double>>> pSplit(int numberOfSubvectors = 10000);
     std::pair<std::vector<double>, double> dichotomyMethod(std::pair<std::vector<double>, std::vector<double>> vector,
-                                                           double eps = pow(10, -5));
+                                                           double eps);
     void optimization() override;
 };
 
-double partialDerivative(Function *function, int axis, std::vector<double> x, double deltaX = pow(10, -5));
-std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX = pow(10, -5));
+double partialDerivative(Function *function, int axis, std::vector<double> x, double deltaX);
+std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX);
 
 
 
