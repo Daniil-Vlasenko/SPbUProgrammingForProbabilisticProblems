@@ -22,7 +22,6 @@ int main() {
     optimizationMethodGrad.optimization();
 
 
-
     // Градиент.
 
 

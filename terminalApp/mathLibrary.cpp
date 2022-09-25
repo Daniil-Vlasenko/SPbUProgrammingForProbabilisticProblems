@@ -205,23 +205,6 @@ OptimizationMethodGrad::OptimizationMethodGrad(Function *function, std::vector<d
     a = 0;
 }
 
-double OptimizationMethodGrad::partialDerivative(int axis, double deltaX) {
-    std::vector<double> x = sequenceOfX_i.back();
-    std::vector<double> x1 = x, x2 = x;
-    x1[axis] -= deltaX, x2[axis] += deltaX;
-    return (function->calculation(x2) - function->calculation(x1)) / ( 2 * deltaX);
-}
-
-std::vector<double> OptimizationMethodGrad::antiGradient(double deltaX) {
-    std::vector<double> x = sequenceOfX_i.back();
-    std::vector<double> result;
-    int dimensions = function->getDimensions();
-    for(int i = 0; i < dimensions; ++i) {
-        result.push_back(-partialDerivative(i, deltaX));
-    }
-    return result;
-}
-
 void OptimizationMethodGrad::pCorrect() {
     std::vector<std::pair<double, double>> box = area.getBox();
     std::vector<double> x_n = sequenceOfX_i.back();
@@ -292,16 +275,34 @@ void OptimizationMethodGrad::linearSearchOfMin(double eps) {
     sequenceOfF_i.push_back(minF);
 }
 
-void OptimizationMethodGrad::dichotomyMethod(double eps) {
+std::vector<std::pair<std::vector<double>, std::vector<double>>> OptimizationMethodGrad::pSplit(int numberOfSubvectors) {
+    std::vector<std::pair<std::vector<double>, std::vector<double>>> result;
     std::vector<double> x_n = sequenceOfX_i.back();
+    std::pair<std::vector<double>, std::vector<double>> subVector;
+    subVector.first = x_n;
+    subVector.second = x_n;
+    int dimensions = function->getDimensions();
+    for(int i = 0; i < numberOfSubvectors; ++i) {
+        for(int j = 0; j < dimensions; ++j) {
+            subVector.second[j] = subVector.first[j] + p[j] * 1 / numberOfSubvectors;
+        }
+        result.push_back(subVector);
+        subVector.first = subVector.second;
+    }
+    return result;
+}
+
+std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(std::pair<std::vector<double>,
+                                                                               std::vector<double>> vector, double eps) {
+    std::pair<std::vector<double>, double> result;
     int dimensions = function->getDimensions();
     double l = 0, r = 1, m, m1, m2;
     while(r - l > eps) {
         m = (l + r) / 2, m1 = m - eps / 2, m2 = m + eps / 2;
-        std::vector<double> x1 = x_n, x2 = x_n;
+        std::vector<double> x1 = vector.first, x2 = vector.first;
         for(int i = 0; i < dimensions; ++i) {
-            x1[i] = x_n[i] + p[i] * m1;
-            x2[i] = x_n[i] + p[i] * m2;
+            x1[i] = vector.first[i] + vector.second[i] * m1;
+            x2[i] = vector.first[i] + vector.second[i] * m2;
         }
         double F1 = function->calculation(x1), F2 = function->calculation(x2);
         if ((F2 - F1) / eps > 0) {
@@ -312,12 +313,13 @@ void OptimizationMethodGrad::dichotomyMethod(double eps) {
         }
     }
     m = (l + r) / 2;
-    std::vector<double> newX = x_n;
+    result.first = vector.first;
     for(int i = 0; i < dimensions; ++i) {
-        newX[i] = x_n[i] + p[i] * m;
+        result.first[i] = vector.first[i] + vector.second[i] * m;
     }
-    sequenceOfX_i.push_back(newX);
-    sequenceOfF_i.push_back(function->calculation(newX));
+    result.second = function->calculation(result.first);
+
+    return result;
 }
 
 void OptimizationMethodGrad::optimization() {
@@ -328,10 +330,36 @@ void OptimizationMethodGrad::optimization() {
         ++numberOfIterationsSinceTheLastImprovement;
 
         // Поиск антиградиента p.
-        p = antiGradient();
-        // Укорачиваем p чере проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
+        p = antiGradient(function, sequenceOfX_i.back());
+        // Укорачиваем p через проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
         pCorrect();
-        // Поиск минимума в направлении p через линейный поиск.
-        dichotomyMethod();
+        // Делим отрезок p на подотрезки, чтобы запустить на каждом метод минимизации.
+        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit(9);
+        // Поиск минимума в направлении p через метод дихотомии.
+        int numberOfSubVectors = subVectors.size();
+        std::pair<std::vector<double>, double> newXF, tmpXF;
+        newXF.second = MAXFLOAT;
+        for(int i = 0; i < numberOfSubVectors; ++i) {
+            tmpXF = dichotomyMethod(subVectors[i]);
+            newXF = tmpXF.second < newXF.second ? tmpXF : newXF;
+        }
+
+        sequenceOfX_i.push_back(newXF.first);
+        sequenceOfF_i.push_back(newXF.second);
     }
+}
+//----------------------------------------------------------------------------------------------------
+double partialDerivative(Function *function, int axis, std::vector<double> x, double deltaX) {
+    std::vector<double> x1 = x, x2 = x;
+    x1[axis] -= deltaX, x2[axis] += deltaX;
+    return (function->calculation(x2) - function->calculation(x1)) / ( 2 * deltaX);
+}
+
+std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX) {
+    std::vector<double> result;
+    int dimensions = function->getDimensions();
+    for(int i = 0; i < dimensions; ++i) {
+        result.push_back(-partialDerivative(function, i, x, deltaX));
+    }
+    return result;
 }

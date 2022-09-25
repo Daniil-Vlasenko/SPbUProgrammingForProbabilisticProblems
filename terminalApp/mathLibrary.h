@@ -148,12 +148,15 @@ public:
     OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
                            TerminationMethod *terminationMethod);
     void pCorrect();
-    double partialDerivative(int axis, double deltaX = pow(10, -5));
-    std::vector<double> antiGradient(double deltaX = pow(10, -5));
     void linearSearchOfMin(double eps = pow(10, -2));
-    void dichotomyMethod(double eps = pow(10, -5));
+    std::vector<std::pair<std::vector<double>, std::vector<double>>> pSplit(int numberOfSubvectors = 10000);
+    std::pair<std::vector<double>, double> dichotomyMethod(std::pair<std::vector<double>, std::vector<double>> vector,
+                                                           double eps = pow(10, -5));
     void optimization() override;
 };
+
+double partialDerivative(Function *function, int axis, std::vector<double> x, double deltaX = pow(10, -5));
+std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX = pow(10, -5));
 
 
 
