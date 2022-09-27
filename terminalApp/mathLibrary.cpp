@@ -66,7 +66,7 @@ int TerminationMethod::getMaxNumberOfIterations() {
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb1::TerminationMethodProb1(double eps)
-: TerminationMethod(eps, 100000) {}
+: TerminationMethod(eps, 10000) {}
 
 bool TerminationMethodProb1::termination(OptimizationMethod *optimizationMethod) {
     if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
@@ -92,7 +92,7 @@ bool TerminationMethodProb3::termination(OptimizationMethod *optimizationMethod)
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb4::TerminationMethodProb4(double eps)
-: TerminationMethod(eps, 100000) {}
+: TerminationMethod(eps, 10000) {}
 
 bool TerminationMethodProb4::termination(OptimizationMethod *optimizationMethod) {
     if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
@@ -108,7 +108,7 @@ bool TerminationMethodProb4::termination(OptimizationMethod *optimizationMethod)
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb5::TerminationMethodProb5(double eps)
-: TerminationMethod(eps, 100000) {}
+: TerminationMethod(eps, 10000) {}
 
 bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod) {
     std::vector<std::vector<double>> sequenceOfX_i = optimizationMethod->getSequenceOfX_i();
@@ -128,7 +128,7 @@ bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod)
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb6::TerminationMethodProb6(double eps)
-: TerminationMethod(eps, 100000) {};
+: TerminationMethod(eps, 10000) {};
 
 bool TerminationMethodProb6::termination(OptimizationMethod *optimizationMethod) {
     std::vector<double> sequenceOfF_i = optimizationMethod->getSequenceOfF_i();
@@ -341,8 +341,8 @@ std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(s
         m = (l + r) / 2, m1 = m - eps / 2, m2 = m + eps / 2;
         std::vector<double> x1 = vector.first, x2 = vector.first;
         for(int i = 0; i < dimensions; ++i) {
-            x1[i] = vector.first[i] + vector.second[i] * m1;
-            x2[i] = vector.first[i] + vector.second[i] * m2;
+            x1[i] = (vector.first[i] + vector.second[i]) * m1;
+            x2[i] = (vector.first[i] + vector.second[i]) * m2;
         }
         double F1 = function->calculation(x1), F2 = function->calculation(x2);
         if ((F2 - F1) / eps > 0) {
@@ -351,11 +351,12 @@ std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(s
         else {
             l = m;
         }
+        std::cout << x1[0] << " " << x1[1] << std::endl;
     }
     m = (l + r) / 2;
     result.first = vector.first;
     for(int i = 0; i < dimensions; ++i) {
-        result.first[i] = vector.first[i] + vector.second[i] * m;
+        result.first[i] = (vector.first[i] + vector.second[i]) * m;
     }
     result.second = function->calculation(result.first);
 
@@ -374,14 +375,17 @@ void OptimizationMethodGrad::optimization() {
         // Укорачиваем p через проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
         pCorrect();
         // Делим отрезок p на подотрезки, чтобы запустить на каждом метод минимизации.
-        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit(9);
+        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit(10);
         // Поиск минимума в направлении p через метод дихотомии.
         int numberOfSubVectors = subVectors.size();
         std::pair<std::vector<double>, double> newXF, tmpXF;
+        double eps = terminationMethod->getEps();
         newXF.second = MAXFLOAT;
         for(int i = 0; i < numberOfSubVectors; ++i) {
-            tmpXF = dichotomyMethod(subVectors[i], terminationMethod->getEps());
+            tmpXF = dichotomyMethod(subVectors[i], eps);
             newXF = tmpXF.second < newXF.second ? tmpXF : newXF;
+            std::cout << "p:" << p[0] << " " << p[1] << std::endl;
+            std::cout << "result of computation:" << tmpXF.first[0] << " " << tmpXF.first[1] << " " << tmpXF.second << std::endl;
         }
 
         sequenceOfX_i.push_back(newXF.first);
