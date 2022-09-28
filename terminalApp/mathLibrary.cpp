@@ -43,7 +43,7 @@ Function4::Function4() : Function(4) {}
 
 double Function4::calculation(std::vector<double> x) {
     this->x = x;
-    F = x[0] * x[0] + x[1] * x[1] + x[2] * x[2] - x[3];
+    F = std::cos(x[0]) + std::cos(x[1]) + std::cos(x[2]) + std::cos(x[3]);
     return F;
 }
 //----------------------------------------------------------------------------------------------------

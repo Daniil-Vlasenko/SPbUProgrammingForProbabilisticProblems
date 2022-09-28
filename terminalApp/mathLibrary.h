@@ -41,7 +41,7 @@ public:
 class Function4 : public Function {
 public:
     Function4();
-    double calculation(std::vector<double> x) override; // F = x^2 * y^2 * z^2 - t
+    double calculation(std::vector<double> x) override; // F = cos(x) + cos(y) + cos(z) + cos(t)
 };
 
 class Area {
