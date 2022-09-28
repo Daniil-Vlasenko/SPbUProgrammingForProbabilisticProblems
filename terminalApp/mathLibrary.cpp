@@ -66,7 +66,7 @@ int TerminationMethod::getMaxNumberOfIterations() {
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb1::TerminationMethodProb1(double eps)
-: TerminationMethod(eps, 10000) {}
+: TerminationMethod(eps, 1000) {}
 
 bool TerminationMethodProb1::termination(OptimizationMethod *optimizationMethod) {
     if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
@@ -92,23 +92,24 @@ bool TerminationMethodProb3::termination(OptimizationMethod *optimizationMethod)
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb4::TerminationMethodProb4(double eps)
-: TerminationMethod(eps, 10000) {}
+: TerminationMethod(eps, 1000) {}
 
 bool TerminationMethodProb4::termination(OptimizationMethod *optimizationMethod) {
     if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
         return true;
-    std::vector<double> grad = antiGradient(optimizationMethod->getFunction(),
+    std::vector<double> p = antiGradient(optimizationMethod->getFunction(),
                                             optimizationMethod->getSequenceOfX_i().back(), eps / 10);
     int dimensions = optimizationMethod->getFunction()->getDimensions();
-    double gradNorm = 0;
+    bool isExtremum = true;
     for(int i = 0; i < dimensions; ++i) {
-        gradNorm += grad[i] * grad[i];
+        isExtremum = p[i] < eps && isExtremum;
     }
-    return std::sqrt(gradNorm) < eps;
+
+    return isExtremum;
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb5::TerminationMethodProb5(double eps)
-: TerminationMethod(eps, 10000) {}
+: TerminationMethod(eps, 1000) {}
 
 bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod) {
     std::vector<std::vector<double>> sequenceOfX_i = optimizationMethod->getSequenceOfX_i();
@@ -128,7 +129,7 @@ bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod)
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb6::TerminationMethodProb6(double eps)
-: TerminationMethod(eps, 10000) {};
+: TerminationMethod(eps, 1000) {};
 
 bool TerminationMethodProb6::termination(OptimizationMethod *optimizationMethod) {
     std::vector<double> sequenceOfF_i = optimizationMethod->getSequenceOfF_i();
@@ -334,15 +335,15 @@ std::vector<std::pair<std::vector<double>, std::vector<double>>> OptimizationMet
 
 std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(std::pair<std::vector<double>,
                                                                                std::vector<double>> vector, double eps) {
-    std::pair<std::vector<double>, double> result;
+    std::pair<std::vector<double>, double> result = {vector.first, 0};
     int dimensions = function->getDimensions();
     double l = 0, r = 1, m, m1, m2;
     while(r - l > eps) {
         m = (l + r) / 2, m1 = m - eps / 2, m2 = m + eps / 2;
         std::vector<double> x1 = vector.first, x2 = vector.first;
         for(int i = 0; i < dimensions; ++i) {
-            x1[i] = (vector.first[i] + vector.second[i]) * m1;
-            x2[i] = (vector.first[i] + vector.second[i]) * m2;
+            x1[i] = vector.first[i] + (vector.second[i] - vector.first[i]) * m1;
+            x2[i] = vector.first[i] + (vector.second[i] - vector.first[i]) * m2;
         }
         double F1 = function->calculation(x1), F2 = function->calculation(x2);
         if ((F2 - F1) / eps > 0) {
@@ -351,12 +352,11 @@ std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(s
         else {
             l = m;
         }
-        std::cout << x1[0] << " " << x1[1] << std::endl;
+//        std::cout << x1[0] << " " << x1[1] << " " << F1 << std::endl;
     }
     m = (l + r) / 2;
-    result.first = vector.first;
     for(int i = 0; i < dimensions; ++i) {
-        result.first[i] = (vector.first[i] + vector.second[i]) * m;
+        result.first[i] += (vector.second[i] - vector.first[i]) * m;
     }
     result.second = function->calculation(result.first);
 
@@ -366,12 +366,24 @@ std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(s
 void OptimizationMethodGrad::optimization() {
     numberOfIterations = 0;
     numberOfIterationsSinceTheLastImprovement = 0;
+    int dimensions = function->getDimensions();
+    double eps = terminationMethod->getEps();
+    p = antiGradient(function, sequenceOfX_i.back(), eps / 10);
+    // Если находимся близ точки екстремума, завершаем программу.
+    bool isExtremum = true;
+    for(int i = 0; i < dimensions; ++i) {
+        isExtremum = p[i] < eps && isExtremum;
+    }
+    if(isExtremum) {
+        return;
+    }
+    // Иначе продолжаем алгоритм.
     while(!terminationMethod->termination(this)) {
         ++numberOfIterations;
         ++numberOfIterationsSinceTheLastImprovement;
 
         // Поиск антиградиента p.
-        p = antiGradient(function, sequenceOfX_i.back(), terminationMethod->getEps() / 10);
+        p = antiGradient(function, sequenceOfX_i.back(), eps / 10);
         // Укорачиваем p через проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
         pCorrect();
         // Делим отрезок p на подотрезки, чтобы запустить на каждом метод минимизации.
@@ -384,10 +396,9 @@ void OptimizationMethodGrad::optimization() {
         for(int i = 0; i < numberOfSubVectors; ++i) {
             tmpXF = dichotomyMethod(subVectors[i], eps);
             newXF = tmpXF.second < newXF.second ? tmpXF : newXF;
-            std::cout << "p:" << p[0] << " " << p[1] << std::endl;
-            std::cout << "result of computation:" << tmpXF.first[0] << " " << tmpXF.first[1] << " " << tmpXF.second << std::endl;
+//            std::cout << "p:" << p[0] << " " << p[1] << std::endl;
+//            std::cout << "result of computation:" << tmpXF.first[0] << " " << tmpXF.first[1] << " " << tmpXF.second << std::endl;
         }
-
         sequenceOfX_i.push_back(newXF.first);
         sequenceOfF_i.push_back(newXF.second);
     }
