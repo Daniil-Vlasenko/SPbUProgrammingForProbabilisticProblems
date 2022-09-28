@@ -1,12 +1,12 @@
 #include "mathLibrary.h"
 
 int main() {
-    std::vector<double> x_0 = {0, 0};
+    std::vector<double> x_0 = {-4, -4};
     std::pair<double, double> x1(-5, 5);
     std::pair<double, double> x2(-5, 5);
     std::vector<std::pair<double, double>> box = {x1, x2};
     Area aria(box);
-    Function *function = new Function3();
+    Function *function = new Function2();
 
     // Стохастический метод.
 //    TerminationMethod *terminationMethod = new TerminationMethodProb1(pow(10, -6));

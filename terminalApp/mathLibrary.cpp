@@ -23,12 +23,11 @@ double Function1::calculation(std::vector<double> x) {
     return F;
 }
 //----------------------------------------------------------------------------------------------------
-Function2::Function2() : Function(3) {}
+Function2::Function2() : Function(2) {}
 
 double Function2::calculation(std::vector<double> x) {
     this->x = x;
-    F = (x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + 8) * (x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + 8) -
-            36 * (x[0] * x[0] + x[1] * x[1]);
+    F = std::pow(x[0], 2) * std::pow(x[1], 2) + std::pow(x[1] + 1, 2);
     return F;
 }
 //----------------------------------------------------------------------------------------------------
@@ -368,20 +367,17 @@ void OptimizationMethodGrad::optimization() {
     numberOfIterationsSinceTheLastImprovement = 0;
     int dimensions = function->getDimensions();
     double eps = terminationMethod->getEps();
+    // Если находимся в экстремальной точке, завершаем алгоритм.
     p = antiGradient(function, sequenceOfX_i.back(), eps / 10);
-    // Если находимся близ точки екстремума, завершаем программу.
     bool isExtremum = true;
     for(int i = 0; i < dimensions; ++i) {
-        isExtremum = p[i] < eps && isExtremum;
+        isExtremum = p[i] == 0 && isExtremum;
     }
     if(isExtremum) {
         return;
     }
     // Иначе продолжаем алгоритм.
     while(!terminationMethod->termination(this)) {
-        ++numberOfIterations;
-        ++numberOfIterationsSinceTheLastImprovement;
-
         // Поиск антиградиента p.
         p = antiGradient(function, sequenceOfX_i.back(), eps / 10);
         // Укорачиваем p через проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
@@ -396,11 +392,16 @@ void OptimizationMethodGrad::optimization() {
         for(int i = 0; i < numberOfSubVectors; ++i) {
             tmpXF = dichotomyMethod(subVectors[i], eps);
             newXF = tmpXF.second < newXF.second ? tmpXF : newXF;
+//            if(newXF.second == MAXFLOAT)
 //            std::cout << "p:" << p[0] << " " << p[1] << std::endl;
 //            std::cout << "result of computation:" << tmpXF.first[0] << " " << tmpXF.first[1] << " " << tmpXF.second << std::endl;
         }
+
         sequenceOfX_i.push_back(newXF.first);
         sequenceOfF_i.push_back(newXF.second);
+
+        ++numberOfIterations;
+        ++numberOfIterationsSinceTheLastImprovement;
     }
 }
 //----------------------------------------------------------------------------------------------------

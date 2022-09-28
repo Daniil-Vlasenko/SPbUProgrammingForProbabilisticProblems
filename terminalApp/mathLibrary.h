@@ -29,7 +29,7 @@ public:
 class Function2 : public Function {
 public:
     Function2();
-    double calculation(std::vector<double> x) override; // F = (x^2 + y^2 + z^2 + 3^2 - 1^2)^2 - 4 * 3^2 * (x^2+y^2)
+    double calculation(std::vector<double> x) override; // F = x^2 * y^2 + y^5 * cos(x)
 };
 
 class Function3 : public Function {
