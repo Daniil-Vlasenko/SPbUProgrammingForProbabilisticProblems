@@ -23,10 +23,14 @@ int main() {
         std::cin >> x_0[i];
 
     std::vector<std::pair<double, double>> box(dimensions);
-    std::cout << "\nSelecting the area of minimisation.\nWrite down coordinates of boundaries of the minimization area:\n";
+    std::cout << "\nSelecting the area of minimization.\nWrite down coordinates of boundaries of the minimization area:\n";
     for(int i = 0; i < dimensions; ++i) {
         std::cout << "axis " << i + 1 << ":";
         std::cin >> box[i].first >> box[i].second;
+        if(box[i].first > x_0[i] || box[i].second < x_0[i]) {
+            std::cout << "\nThe start point isn't in the minimization area.";
+            return 0;
+        }
     }
     Area area(box);
 
@@ -79,6 +83,16 @@ int main() {
         }
         optimizationMethod = new OptimizationMethodProb(function, x_0, area, terminationMethod);
     }
+
+    optimizationMethod->optimization();
+
+    std::cout << "\nMinimum of the function: " << optimizationMethod->getSequenceOfF_i().back() <<
+                 "\nMinimum point of the function: ";
+    std::vector<double> x_n = optimizationMethod->getSequenceOfX_i().back();
+    for(int i = 0; i < dimensions; ++i) {
+        std::cout << x_n[i] << " ";
+    }
+    std::cout << "\nNumber of iterations: " << optimizationMethod->getNumberOfIterations();
 
 
 

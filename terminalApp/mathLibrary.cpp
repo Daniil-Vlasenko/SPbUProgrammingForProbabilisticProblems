@@ -71,8 +71,8 @@ bool TerminationMethodProb1::termination(OptimizationMethod *optimizationMethod)
     if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
         return true;
     int numberOfIterations = optimizationMethod->getSequenceOfF_i().size();
-    double lastF = optimizationMethod->getSequenceOfF_i()[numberOfIterations],
-    penultimateF = optimizationMethod->getSequenceOfF_i()[numberOfIterations - 1];
+    double lastF = optimizationMethod->getSequenceOfF_i()[numberOfIterations - 1],
+    penultimateF = optimizationMethod->getSequenceOfF_i()[numberOfIterations - 2];
     return (lastF < penultimateF) && (penultimateF - lastF < eps);
 }
 //----------------------------------------------------------------------------------------------------
