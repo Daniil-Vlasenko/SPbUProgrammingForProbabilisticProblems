@@ -90,10 +90,10 @@ bool TerminationMethodProb3::termination(OptimizationMethod *optimizationMethod)
     return optimizationMethod->getNumberOfIterationsSinceTheLastImprovement() > maxNumberOfIterations;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodProb4::TerminationMethodProb4(double eps)
+TerminationMethodGrad1::TerminationMethodGrad1(double eps)
 : TerminationMethod(eps, 1000) {}
 
-bool TerminationMethodProb4::termination(OptimizationMethod *optimizationMethod) {
+bool TerminationMethodGrad1::termination(OptimizationMethod *optimizationMethod) {
     if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
         return true;
     std::vector<double> p = antiGradient(optimizationMethod->getFunction(),
@@ -107,10 +107,10 @@ bool TerminationMethodProb4::termination(OptimizationMethod *optimizationMethod)
     return isExtremum;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodProb5::TerminationMethodProb5(double eps)
+TerminationMethodGrad2::TerminationMethodGrad2(double eps)
 : TerminationMethod(eps, 1000) {}
 
-bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod) {
+bool TerminationMethodGrad2::termination(OptimizationMethod *optimizationMethod) {
     std::vector<std::vector<double>> sequenceOfX_i = optimizationMethod->getSequenceOfX_i();
     int size = sequenceOfX_i.size();
     if(size == 1)
@@ -127,10 +127,10 @@ bool TerminationMethodProb5::termination(OptimizationMethod *optimizationMethod)
     return std::sqrt(tmp) < eps;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodProb6::TerminationMethodProb6(double eps)
+TerminationMethodGrad3::TerminationMethodGrad3(double eps)
 : TerminationMethod(eps, 1000) {};
 
-bool TerminationMethodProb6::termination(OptimizationMethod *optimizationMethod) {
+bool TerminationMethodGrad3::termination(OptimizationMethod *optimizationMethod) {
     std::vector<double> sequenceOfF_i = optimizationMethod->getSequenceOfF_i();
     int size = sequenceOfF_i.size();
     if(size == 1)

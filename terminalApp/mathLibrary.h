@@ -94,24 +94,24 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodProb4 : public TerminationMethod{
+class TerminationMethodGrad1 : public TerminationMethod{
 public:
-    TerminationMethodProb4() = default;
-    explicit TerminationMethodProb4(double eps);
+    TerminationMethodGrad1() = default;
+    explicit TerminationMethodGrad1(double eps);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodProb5 : public TerminationMethod{
+class TerminationMethodGrad2 : public TerminationMethod{
 public:
-    TerminationMethodProb5() = default;
-    explicit TerminationMethodProb5(double eps);
+    TerminationMethodGrad2() = default;
+    explicit TerminationMethodGrad2(double eps);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodProb6 : public TerminationMethod{
+class TerminationMethodGrad3 : public TerminationMethod{
 public:
-    TerminationMethodProb6() = default;
-    explicit TerminationMethodProb6(double eps);
+    TerminationMethodGrad3() = default;
+    explicit TerminationMethodGrad3(double eps);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
