@@ -35,7 +35,7 @@ Function3::Function3() : Function(2) {}
 
 double Function3::calculation(std::vector<double> x) {
     this->x = x;
-    F = x[0] * x[0] + x[1] * std::sin(x[1]) * std::cos(x[1]);
+    F = std::exp(x[0]) + x[1] * x[1];
     return F;
 }
 //----------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ TerminationMethodProb1::TerminationMethodProb1(double eps)
 : TerminationMethod(eps, 1000) {}
 
 bool TerminationMethodProb1::termination(OptimizationMethod *optimizationMethod) {
-    if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
+    if(optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations)
         return true;
     int numberOfIterations = optimizationMethod->getSequenceOfF_i().size();
     double lastF = optimizationMethod->getSequenceOfF_i()[numberOfIterations - 1],
@@ -80,28 +80,28 @@ TerminationMethodProb2::TerminationMethodProb2(int maxNumberOfIterations)
 : TerminationMethod(0, maxNumberOfIterations) {}
 
 bool TerminationMethodProb2::termination(OptimizationMethod *optimizationMethod) {
-    return optimizationMethod->getNumberOfIterations() > maxNumberOfIterations;
+    return optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations;
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodProb3::TerminationMethodProb3(int maxNumberOfIterations)
 : TerminationMethod(0, maxNumberOfIterations) {}
 
 bool TerminationMethodProb3::termination(OptimizationMethod *optimizationMethod) {
-    return optimizationMethod->getNumberOfIterationsSinceTheLastImprovement() > maxNumberOfIterations;
+    return optimizationMethod->getNumberOfIterationsSinceTheLastImprovement() >= maxNumberOfIterations;
 }
 //----------------------------------------------------------------------------------------------------
 TerminationMethodGrad1::TerminationMethodGrad1(double eps)
 : TerminationMethod(eps, 1000) {}
 
 bool TerminationMethodGrad1::termination(OptimizationMethod *optimizationMethod) {
-    if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
+    if(optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations)
         return true;
     std::vector<double> p = antiGradient(optimizationMethod->getFunction(),
                                             optimizationMethod->getSequenceOfX_i().back(), eps / 10);
     int dimensions = optimizationMethod->getFunction()->getDimensions();
     bool isExtremum = true;
     for(int i = 0; i < dimensions; ++i) {
-        isExtremum = p[i] < eps && isExtremum;
+        isExtremum = std::abs(p[i]) < eps && isExtremum;
     }
 
     return isExtremum;
@@ -115,7 +115,7 @@ bool TerminationMethodGrad2::termination(OptimizationMethod *optimizationMethod)
     int size = sequenceOfX_i.size();
     if(size == 1)
         return false;
-    if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
+    if(optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations)
         return true;
     int dimensions = optimizationMethod->getFunction()->getDimensions();
     std::vector<double> x1 = sequenceOfX_i[size - 1], x2 = sequenceOfX_i[size - 2];
@@ -135,9 +135,9 @@ bool TerminationMethodGrad3::termination(OptimizationMethod *optimizationMethod)
     int size = sequenceOfF_i.size();
     if(size == 1)
         return false;
-    if(optimizationMethod->getNumberOfIterations() > maxNumberOfIterations)
+    if(optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations)
         return true;
-    return std::abs((sequenceOfF_i[size - 1] - sequenceOfF_i[size - 2]) / sequenceOfF_i[size - 2]) < eps;
+    return std::abs((sequenceOfF_i[size - 1] - sequenceOfF_i[size - 2]) / sequenceOfF_i[size - 1]) < eps;
 }
 //----------------------------------------------------------------------------------------------------
 OptimizationMethod::OptimizationMethod(Function *function, std::vector<double> x_0, Area aria,
@@ -371,7 +371,7 @@ void OptimizationMethodGrad::optimization() {
     p = antiGradient(function, sequenceOfX_i.back(), eps / 10);
     bool isExtremum = true;
     for(int i = 0; i < dimensions; ++i) {
-        isExtremum = p[i] == 0 && isExtremum;
+        isExtremum = std::abs(p[i]) < eps && isExtremum;
     }
     if(isExtremum) {
         return;
@@ -383,7 +383,7 @@ void OptimizationMethodGrad::optimization() {
         // Укорачиваем p через проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
         pCorrect();
         // Делим отрезок p на подотрезки, чтобы запустить на каждом метод минимизации.
-        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit(10);
+        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit(100);
         // Поиск минимума в направлении p через метод дихотомии.
         int numberOfSubVectors = subVectors.size();
         std::pair<std::vector<double>, double> newXF, tmpXF;
