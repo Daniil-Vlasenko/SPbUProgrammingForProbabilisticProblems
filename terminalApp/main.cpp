@@ -98,14 +98,15 @@ int main() {
 
     Function *function = new Function4();
     int dimensions = function->getDimensions();
-//    std::vector<double> x_0 = {-1, 0};
+//    std::vector<double> x_0 = {-4, 1};
 //    std::vector<std::pair<double, double>> box = {{-5,5}, {-5,5}};
-    std::vector<double> x_0 = {1, 1, 1, 1};
+    std::vector<double> x_0 = {5, 5, 5, 5};
     std::vector<std::pair<double, double>> box = {{-5,5}, {-5,5}, {-5,5}, {-5,5}};
     Area area(box);
     double eps = 0.0001;
-    TerminationMethod *terminationMethod = new TerminationMethodGrad3(eps);
-    OptimizationMethod *optimizationMethod = new OptimizationMethodGrad(function, x_0, area, terminationMethod);
+    int numberOfIterations = 1000;
+    TerminationMethod *terminationMethod = new TerminationMethodProb3(numberOfIterations);
+    OptimizationMethod *optimizationMethod = new OptimizationMethodProb(function, x_0, area, terminationMethod);
 
     optimizationMethod->optimization();
 

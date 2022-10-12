@@ -68,9 +68,11 @@ TerminationMethodProb1::TerminationMethodProb1(double eps)
 : TerminationMethod(eps, 1000) {}
 
 bool TerminationMethodProb1::termination(OptimizationMethod *optimizationMethod) {
-    if(optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations)
-        return true;
     int numberOfIterations = optimizationMethod->getSequenceOfF_i().size();
+    if (numberOfIterations == 1)
+        return false;
+    if(numberOfIterations >= maxNumberOfIterations)
+        return true;
     double lastF = optimizationMethod->getSequenceOfF_i()[numberOfIterations - 1],
     penultimateF = optimizationMethod->getSequenceOfF_i()[numberOfIterations - 2];
     return (lastF < penultimateF) && (penultimateF - lastF < eps);
@@ -180,14 +182,8 @@ OptimizationMethodProb::OptimizationMethodProb(Function *function, std::vector<d
                        TerminationMethod *terminationMethod)
 : OptimizationMethod(function, x_0, area, terminationMethod),
 seed(std::chrono::system_clock::now().time_since_epoch().count()), generator(seed), distribution(0, 1) {
-    // Проверка принадлежности начальной точки области минимизации функции.
     std::vector<std::pair<double, double>> box = area.getBox();
-    assert(!box.empty());
     int dimensions = function->getDimensions();
-    for(int i = 0; i < dimensions; ++i) {
-        assert(x_0[i] > box[i].first && x_0[i] < box[i].second );
-    }
-
     p = 0.5;
     a = 0.5;
     b1 = box[0].second - box[0].first;
@@ -203,7 +199,6 @@ void OptimizationMethodProb::optimization() {
     numberOfIterationsSinceTheLastImprovement = 0;
     int dimensions = function->getDimensions();
     std::vector<std::pair<double, double>> box = area.getBox();
-    sequenceOfF_i.push_back(function->calculation(sequenceOfX_i[0]));
     while(!terminationMethod->termination(this)) {
         ++numberOfIterations;
         ++numberOfIterationsSinceTheLastImprovement;
