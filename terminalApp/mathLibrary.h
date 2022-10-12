@@ -55,10 +55,10 @@ public:
 };
 
 // Что происходит далее. Мне нужен абстрактный класс остановки оптимизации, наследникам которого
-// нужна разная информация о процессе оптимизации и который будет полем класса оптимизации.
-// Делать класс терминации вычислений наследником класса метода оптимизации глупо,
+// нужна разная информация о процессе оптимизации и которые будут полем класса оптимизации.
+// Делать класс терминации вычислений наследником класса метода оптимизации странно,
 // но доступ к его полям все еще нужен. Выход: сделать класс терминайции полем класса метода
-// оптимизации, которому побуед подаваться ссылка на текущий метод оптимизации для поступа к его полям.
+// оптимизации, которому будет подаваться указатель на текущий метод оптимизации для поступа к его полям.
 class OptimizationMethod;
 
 class TerminationMethod {
@@ -73,50 +73,49 @@ public:
     virtual bool termination(OptimizationMethod *optimizationMethod) = 0;
 };
 
-class TerminationMethodProb1 : public TerminationMethod{
+class TerminationMethodProb1 : public TerminationMethod {
 public:
     TerminationMethodProb1() = default;
-    explicit TerminationMethodProb1(double eps);
+    explicit TerminationMethodProb1(double eps, int maxNumberOfIterations = 1000);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodProb2 : public TerminationMethod{
+class TerminationMethodProb2 : public TerminationMethod {
 public:
     TerminationMethodProb2() = default;
     explicit TerminationMethodProb2(int maxNumberOfIterations);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodProb3 : public TerminationMethod{
+class TerminationMethodProb3 : public TerminationMethod {
 public:
     TerminationMethodProb3() = default;
     explicit TerminationMethodProb3(int maxNumberOfIterations);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodGrad1 : public TerminationMethod{
+class TerminationMethodGrad1 : public TerminationMethod {
 public:
     TerminationMethodGrad1() = default;
-    explicit TerminationMethodGrad1(double eps);
+    explicit TerminationMethodGrad1(double eps, int maxNumberOfIterations = 1000);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodGrad2 : public TerminationMethod{
+class TerminationMethodGrad2 : public TerminationMethod {
 public:
     TerminationMethodGrad2() = default;
-    explicit TerminationMethodGrad2(double eps);
+    explicit TerminationMethodGrad2(double eps, int maxNumberOfIterations = 1000);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
-class TerminationMethodGrad3 : public TerminationMethod{
+class TerminationMethodGrad3 : public TerminationMethod {
 public:
     TerminationMethodGrad3() = default;
-    explicit TerminationMethodGrad3(double eps);
+    explicit TerminationMethodGrad3(double eps, int maxNumberOfIterations = 1000);
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
 class OptimizationMethod {
-//    friend bool TerminationMethod::termination(OptimizationMethod &optimizationMethod);
 protected:
     std::vector<std::vector<double>> sequenceOfX_i;
     std::vector<double> sequenceOfF_i;
@@ -159,14 +158,12 @@ public:
 class  OptimizationMethodGrad : public OptimizationMethod {
 private:
     std::vector<double> p;
-    double a;
 
 public:
     OptimizationMethodGrad() = default;
     OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
                            TerminationMethod *terminationMethod);
     void pCorrect();
-    void linearSearchOfMin(double eps = pow(10, -2));
     std::vector<std::pair<std::vector<double>, std::vector<double>>> pSplit(int numberOfSubvectors = 10000);
     std::pair<std::vector<double>, double> dichotomyMethod(std::pair<std::vector<double>, std::vector<double>> vector,
                                                            double eps);

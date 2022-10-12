@@ -64,8 +64,8 @@ int TerminationMethod::getMaxNumberOfIterations() {
     return maxNumberOfIterations;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodProb1::TerminationMethodProb1(double eps)
-: TerminationMethod(eps, 1000) {}
+TerminationMethodProb1::TerminationMethodProb1(double eps, int maxNumberOfIterations)
+: TerminationMethod(eps, maxNumberOfIterations) {}
 
 bool TerminationMethodProb1::termination(OptimizationMethod *optimizationMethod) {
     int numberOfIterations = optimizationMethod->getSequenceOfF_i().size();
@@ -92,8 +92,8 @@ bool TerminationMethodProb3::termination(OptimizationMethod *optimizationMethod)
     return optimizationMethod->getNumberOfIterationsSinceTheLastImprovement() >= maxNumberOfIterations;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodGrad1::TerminationMethodGrad1(double eps)
-: TerminationMethod(eps, 1000) {}
+TerminationMethodGrad1::TerminationMethodGrad1(double eps, int maxNumberOfIterations)
+: TerminationMethod(eps, maxNumberOfIterations) {}
 
 bool TerminationMethodGrad1::termination(OptimizationMethod *optimizationMethod) {
     if(optimizationMethod->getNumberOfIterations() >= maxNumberOfIterations)
@@ -109,8 +109,8 @@ bool TerminationMethodGrad1::termination(OptimizationMethod *optimizationMethod)
     return isExtremum;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodGrad2::TerminationMethodGrad2(double eps)
-: TerminationMethod(eps, 1000) {}
+TerminationMethodGrad2::TerminationMethodGrad2(double eps, int maxNumberOfIterations)
+: TerminationMethod(eps, maxNumberOfIterations) {}
 
 bool TerminationMethodGrad2::termination(OptimizationMethod *optimizationMethod) {
     std::vector<std::vector<double>> sequenceOfX_i = optimizationMethod->getSequenceOfX_i();
@@ -129,8 +129,8 @@ bool TerminationMethodGrad2::termination(OptimizationMethod *optimizationMethod)
     return std::sqrt(tmp) < eps;
 }
 //----------------------------------------------------------------------------------------------------
-TerminationMethodGrad3::TerminationMethodGrad3(double eps)
-: TerminationMethod(eps, 1000) {};
+TerminationMethodGrad3::TerminationMethodGrad3(double eps, int maxNumberOfIterations)
+: TerminationMethod(eps, maxNumberOfIterations) {};
 
 bool TerminationMethodGrad3::termination(OptimizationMethod *optimizationMethod) {
     std::vector<double> sequenceOfF_i = optimizationMethod->getSequenceOfF_i();
@@ -237,7 +237,6 @@ OptimizationMethodGrad::OptimizationMethodGrad(Function *function, std::vector<d
                                                TerminationMethod *terminationMethod)
 : OptimizationMethod(function, x_0, area, terminationMethod) {
     p.resize(function->getDimensions(), 0);
-    a = 0;
 }
 
 void OptimizationMethodGrad::pCorrect() {
@@ -281,33 +280,6 @@ void OptimizationMethodGrad::pCorrect() {
             p[i] *= minFraction;
         }
     }
-}
-
-void OptimizationMethodGrad::linearSearchOfMin(double eps) {
-    std::vector<double> x_n = sequenceOfX_i.back();
-    int dimensions = function->getDimensions();
-    std::vector<std::pair<double, double>> box = area.getBox();
-    double maxLength = 0;
-    for(int i = 0; i < dimensions; ++i) {
-        maxLength = box[i].second - box[i].first > maxLength ? box[i].second - box[i].first : maxLength;
-    }
-    int steps = maxLength / eps;
-
-    std::vector<double> minX = x_n, tmpX = x_n;
-    double tmpF;
-    double minF = function->calculation(x_n);
-    for(int i = 0; i < steps; ++i) {
-        for(int j = 0; j < dimensions; ++j) {
-            tmpX[j] += eps * p[j];
-        }
-        if(minF > (tmpF = function->calculation(tmpX))) {
-            minF = tmpF;
-            minX = tmpX;
-        }
-    }
-
-    sequenceOfX_i.push_back(minX);
-    sequenceOfF_i.push_back(minF);
 }
 
 std::vector<std::pair<std::vector<double>, std::vector<double>>> OptimizationMethodGrad::pSplit(int numberOfSubvectors) {
