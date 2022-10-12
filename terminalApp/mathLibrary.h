@@ -164,7 +164,7 @@ public:
     OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
                            TerminationMethod *terminationMethod);
     void pCorrect();
-    std::vector<std::pair<std::vector<double>, std::vector<double>>> pSplit(int numberOfSubvectors = 10000);
+    std::vector<std::pair<std::vector<double>, std::vector<double>>> pSplit(int numberOfSubvectors = 100);
     std::pair<std::vector<double>, double> dichotomyMethod(std::pair<std::vector<double>, std::vector<double>> vector,
                                                            double eps);
     void optimization() override;

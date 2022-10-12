@@ -105,7 +105,6 @@ bool TerminationMethodGrad1::termination(OptimizationMethod *optimizationMethod)
     for(int i = 0; i < dimensions; ++i) {
         isExtremum = std::abs(p[i]) < eps && isExtremum;
     }
-
     return isExtremum;
 }
 //----------------------------------------------------------------------------------------------------
@@ -223,12 +222,6 @@ void OptimizationMethodProb::optimization() {
             sequenceOfF_i.push_back(newF);
             sequenceOfX_i.push_back(newX);
             numberOfIterationsSinceTheLastImprovement = 0;
-
-//            std::cout << "i: " << numberOfIterations << std::endl << "F_i: " << newF << std::endl << "X_i: ";
-//            for(int i = 0; i < dimensions; ++i) {
-//                std::cout << newX[i] << " ";
-//            }
-//            std::cout << std::endl;
         }
     }
 }
@@ -299,8 +292,8 @@ std::vector<std::pair<std::vector<double>, std::vector<double>>> OptimizationMet
     return result;
 }
 
-std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(std::pair<std::vector<double>,
-                                                                               std::vector<double>> vector, double eps) {
+std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(
+        std::pair<std::vector<double>, std::vector<double>> vector, double eps) {
     std::pair<std::vector<double>, double> result = {vector.first, 0};
     int dimensions = function->getDimensions();
     double l = 0, r = 1, m, m1, m2;
@@ -318,7 +311,6 @@ std::pair<std::vector<double>, double> OptimizationMethodGrad::dichotomyMethod(s
         else {
             l = m;
         }
-//        std::cout << x1[0] << " " << x1[1] << " " << F1 << std::endl;
     }
     m = (l + r) / 2;
     for(int i = 0; i < dimensions; ++i) {
@@ -350,18 +342,14 @@ void OptimizationMethodGrad::optimization() {
         // Укорачиваем p через проекцию, если он вылазит за область, или удлинаяем, если лежит внутри области.
         pCorrect();
         // Делим отрезок p на подотрезки, чтобы запустить на каждом метод минимизации.
-        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit(100);
+        std::vector<std::pair<std::vector<double>, std::vector<double>>> subVectors = pSplit();
         // Поиск минимума в направлении p через метод дихотомии.
         int numberOfSubVectors = subVectors.size();
         std::pair<std::vector<double>, double> newXF, tmpXF;
-        double eps = terminationMethod->getEps();
         newXF.second = MAXFLOAT;
         for(int i = 0; i < numberOfSubVectors; ++i) {
             tmpXF = dichotomyMethod(subVectors[i], eps);
             newXF = tmpXF.second < newXF.second ? tmpXF : newXF;
-//            if(newXF.second == MAXFLOAT)
-//            std::cout << "p:" << p[0] << " " << p[1] << std::endl;
-//            std::cout << "result of computation:" << tmpXF.first[0] << " " << tmpXF.first[1] << " " << tmpXF.second << std::endl;
         }
 
         sequenceOfX_i.push_back(newXF.first);
