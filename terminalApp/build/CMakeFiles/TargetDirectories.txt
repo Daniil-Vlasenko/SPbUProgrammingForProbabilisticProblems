@@ -1,3 +1,0 @@
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/terminalApp/build/CMakeFiles/terminalApp.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/terminalApp/build/CMakeFiles/edit_cache.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/terminalApp/build/CMakeFiles/rebuild_cache.dir
