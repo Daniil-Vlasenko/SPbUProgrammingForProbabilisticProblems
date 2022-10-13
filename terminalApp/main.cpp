@@ -9,7 +9,7 @@ int main() {
         std::cout << "Finding the minimum of a function, by Daniil Vlasenko.\n\n";
         int functionInt = -1;
         std::cout << "Selecting the function.\n1. F = (x+1)^2 + (y+1)^2;\n2. F = x^2 * y^2 + (y + 1)^2;\n"
-                     "3. F = x^2 + y * sin(y) * cos(y);\n4. F = cos(x) + cos(y) + cos(z) + cos(t).\n"
+                     "3. F = exp(x) + y^2;\n4. F = cos(x) + cos(y) + cos(z) + cos(t).\n"
                      "Writ down a number of the function: ";
         std::cin >> functionInt;
         Function *function;
