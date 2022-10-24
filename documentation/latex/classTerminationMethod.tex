@@ -30,9 +30,8 @@ double {\bfseries get\+Eps} ()
 \mbox{\Hypertarget{classTerminationMethod_ac03c7050c4c805c8637b0430714d6256}\label{classTerminationMethod_ac03c7050c4c805c8637b0430714d6256}} 
 int {\bfseries get\+Max\+Number\+Of\+Iterations} ()
 \item 
-\mbox{\Hypertarget{classTerminationMethod_a061a731207074549b31521db98b57ed4}\label{classTerminationMethod_a061a731207074549b31521db98b57ed4}} 
-virtual bool {\bfseries termination} (\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$optimization\+Method)=0
-\end{DoxyCompactItemize}
+virtual bool \mbox{\hyperlink{classTerminationMethod_a061a731207074549b31521db98b57ed4}{termination}} (\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$optimization\+Method)=0
+\begin{DoxyCompactList}\small\item\em Abstract function for checking the completion of an optimization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -46,6 +45,30 @@ int {\bfseries max\+Number\+Of\+Iterations}
 
 \doxysubsection{Detailed Description}
 Abstract class of the termination method. 
+
+Since the termination method is a field of an optimization method and it needs information about it\textquotesingle{}s parent class, it\textquotesingle{}s main function takes as it\textquotesingle{}s argument a pointer to the optimization method whose field the termination method is. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classTerminationMethod_a061a731207074549b31521db98b57ed4}\label{classTerminationMethod_a061a731207074549b31521db98b57ed4}} 
+\index{TerminationMethod@{TerminationMethod}!termination@{termination}}
+\index{termination@{termination}!TerminationMethod@{TerminationMethod}}
+\doxysubsubsection{\texorpdfstring{termination()}{termination()}}
+{\footnotesize\ttfamily virtual bool Termination\+Method\+::termination (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$}]{optimization\+Method }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Abstract function for checking the completion of an optimization method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em optimization\+Method} & A pointer to the parent class. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classTerminationMethodGrad3_a5ece6436f243243dcd98f2f960ee572b}{Termination\+Method\+Grad3}}, \mbox{\hyperlink{classTerminationMethodGrad2_a5ea23f3e95fa2faf276effc0ea767546}{Termination\+Method\+Grad2}}, \mbox{\hyperlink{classTerminationMethodGrad1_a7163a58ca406aaa372cb5df167bf5141}{Termination\+Method\+Grad1}}, \mbox{\hyperlink{classTerminationMethodProb3_adeefcfdd5f86120883371a56241fba21}{Termination\+Method\+Prob3}}, \mbox{\hyperlink{classTerminationMethodProb2_aaf8626cdd2a34ed70978bb16c4fe6f9b}{Termination\+Method\+Prob2}}, and \mbox{\hyperlink{classTerminationMethodProb1_a5a5ccd59e8edb601abe857e57fa2327b}{Termination\+Method\+Prob1}}.
+
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

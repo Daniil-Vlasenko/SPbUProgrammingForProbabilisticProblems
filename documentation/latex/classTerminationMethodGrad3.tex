@@ -33,14 +33,35 @@ Collaboration diagram for Termination\+Method\+Grad3\+:\nopagebreak
 \mbox{\Hypertarget{classTerminationMethodGrad3_a0ece1b77c22d7bf995604c4daaef3db9}\label{classTerminationMethodGrad3_a0ece1b77c22d7bf995604c4daaef3db9}} 
 {\bfseries Termination\+Method\+Grad3} (double eps, int max\+Number\+Of\+Iterations=1000)
 \item 
-\mbox{\Hypertarget{classTerminationMethodGrad3_a5ece6436f243243dcd98f2f960ee572b}\label{classTerminationMethodGrad3_a5ece6436f243243dcd98f2f960ee572b}} 
-bool {\bfseries termination} (\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$optimization\+Method) override
-\end{DoxyCompactItemize}
+bool \mbox{\hyperlink{classTerminationMethodGrad3_a5ece6436f243243dcd98f2f960ee572b}{termination}} (\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$optimization\+Method) override
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFunction}{Function}} for checking the completion of an optimization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
 Class of the termination method\+: $\vert$$\vert$(f(x\+\_\+\{n\}) -\/ f(x\+\_\+\{n-\/1\})/f(x\+\_\+n)$\vert$$\vert$ $<$ eps. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classTerminationMethodGrad3_a5ece6436f243243dcd98f2f960ee572b}\label{classTerminationMethodGrad3_a5ece6436f243243dcd98f2f960ee572b}} 
+\index{TerminationMethodGrad3@{TerminationMethodGrad3}!termination@{termination}}
+\index{termination@{termination}!TerminationMethodGrad3@{TerminationMethodGrad3}}
+\doxysubsubsection{\texorpdfstring{termination()}{termination()}}
+{\footnotesize\ttfamily bool Termination\+Method\+Grad3\+::termination (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$}]{optimization\+Method }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{classFunction}{Function}} for checking the completion of an optimization method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em optimization\+Method} & A pointer to the parent class. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classTerminationMethod_a061a731207074549b31521db98b57ed4}{Termination\+Method}}.
+
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

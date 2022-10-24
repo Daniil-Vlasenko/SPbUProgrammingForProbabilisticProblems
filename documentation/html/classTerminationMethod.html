@@ -100,8 +100,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>getEps</b> ()</td><
 <tr class="memitem:ac03c7050c4c805c8637b0430714d6256"><td class="memItemLeft" align="right" valign="top"><a id="ac03c7050c4c805c8637b0430714d6256"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getMaxNumberOfIterations</b> ()</td></tr>
 <tr class="separator:ac03c7050c4c805c8637b0430714d6256"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a061a731207074549b31521db98b57ed4"><td class="memItemLeft" align="right" valign="top"><a id="a061a731207074549b31521db98b57ed4"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>termination</b> (<a class="el" href="classOptimizationMethod.html">OptimizationMethod</a> *optimizationMethod)=0</td></tr>
+<tr class="memitem:a061a731207074549b31521db98b57ed4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTerminationMethod.html#a061a731207074549b31521db98b57ed4">termination</a> (<a class="el" href="classOptimizationMethod.html">OptimizationMethod</a> *optimizationMethod)=0</td></tr>
+<tr class="memdesc:a061a731207074549b31521db98b57ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract function for checking the completion of an optimization method.  <a href="classTerminationMethod.html#a061a731207074549b31521db98b57ed4">More...</a><br /></td></tr>
 <tr class="separator:a061a731207074549b31521db98b57ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -115,7 +115,45 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>maxNumberOfIterations<
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class of the termination method. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<p>Since the termination method is a field of an optimization method and it needs information about it's parent class, it's main function takes as it's argument a pointer to the optimization method whose field the termination method is. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a061a731207074549b31521db98b57ed4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a061a731207074549b31521db98b57ed4">&#9670;&nbsp;</a></span>termination()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool TerminationMethod::termination </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classOptimizationMethod.html">OptimizationMethod</a> *&#160;</td>
+          <td class="paramname"><em>optimizationMethod</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Abstract function for checking the completion of an optimization method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">optimizationMethod</td><td>A pointer to the parent class. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classTerminationMethodGrad3.html#a5ece6436f243243dcd98f2f960ee572b">TerminationMethodGrad3</a>, <a class="el" href="classTerminationMethodGrad2.html#a5ea23f3e95fa2faf276effc0ea767546">TerminationMethodGrad2</a>, <a class="el" href="classTerminationMethodGrad1.html#a7163a58ca406aaa372cb5df167bf5141">TerminationMethodGrad1</a>, <a class="el" href="classTerminationMethodProb3.html#adeefcfdd5f86120883371a56241fba21">TerminationMethodProb3</a>, <a class="el" href="classTerminationMethodProb2.html#aaf8626cdd2a34ed70978bb16c4fe6f9b">TerminationMethodProb2</a>, and <a class="el" href="classTerminationMethodProb1.html#a5a5ccd59e8edb601abe857e57fa2327b">TerminationMethodProb1</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/terminalApp/<a class="el" href="mathLibrary_8h_source.html">mathLibrary.h</a></li>
 </ul>
 </div><!-- contents -->

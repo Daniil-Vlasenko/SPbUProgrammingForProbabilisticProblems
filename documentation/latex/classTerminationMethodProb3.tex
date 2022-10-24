@@ -33,14 +33,35 @@ Collaboration diagram for Termination\+Method\+Prob3\+:\nopagebreak
 \mbox{\Hypertarget{classTerminationMethodProb3_a324104254dd1fd896c4ae0b1b40c7016}\label{classTerminationMethodProb3_a324104254dd1fd896c4ae0b1b40c7016}} 
 {\bfseries Termination\+Method\+Prob3} (int max\+Number\+Of\+Iterations)
 \item 
-\mbox{\Hypertarget{classTerminationMethodProb3_adeefcfdd5f86120883371a56241fba21}\label{classTerminationMethodProb3_adeefcfdd5f86120883371a56241fba21}} 
-bool {\bfseries termination} (\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$optimization\+Method) override
-\end{DoxyCompactItemize}
+bool \mbox{\hyperlink{classTerminationMethodProb3_adeefcfdd5f86120883371a56241fba21}{termination}} (\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$optimization\+Method) override
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFunction}{Function}} for checking the completion of an optimization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
 Class of the termination method\+: number of iterations since the last improvement is greater than n. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classTerminationMethodProb3_adeefcfdd5f86120883371a56241fba21}\label{classTerminationMethodProb3_adeefcfdd5f86120883371a56241fba21}} 
+\index{TerminationMethodProb3@{TerminationMethodProb3}!termination@{termination}}
+\index{termination@{termination}!TerminationMethodProb3@{TerminationMethodProb3}}
+\doxysubsubsection{\texorpdfstring{termination()}{termination()}}
+{\footnotesize\ttfamily bool Termination\+Method\+Prob3\+::termination (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classOptimizationMethod}{Optimization\+Method}} $\ast$}]{optimization\+Method }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{classFunction}{Function}} for checking the completion of an optimization method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em optimization\+Method} & A pointer to the parent class. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classTerminationMethod_a061a731207074549b31521db98b57ed4}{Termination\+Method}}.
+
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

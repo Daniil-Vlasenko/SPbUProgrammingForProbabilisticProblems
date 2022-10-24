@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['optimizationmethod_22',['OptimizationMethod',['../classOptimizationMethod.html',1,'']]],
-  ['optimizationmethodgrad_23',['OptimizationMethodGrad',['../classOptimizationMethodGrad.html',1,'']]],
-  ['optimizationmethodprob_24',['OptimizationMethodProb',['../classOptimizationMethodProb.html',1,'']]]
+  ['optimizationmethod_25',['OptimizationMethod',['../classOptimizationMethod.html',1,'']]],
+  ['optimizationmethodgrad_26',['OptimizationMethodGrad',['../classOptimizationMethodGrad.html',1,'']]],
+  ['optimizationmethodprob_27',['OptimizationMethodProb',['../classOptimizationMethodProb.html',1,'']]]
 ];

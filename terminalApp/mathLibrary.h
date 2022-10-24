@@ -92,6 +92,9 @@ class OptimizationMethod;
 
 /**
  * @brief Abstract class of the termination method.
+ * @details Since the termination method is a field of an optimization method and it needs information about it's
+ * parent class, it's main function takes as it's argument a pointer to the optimization method whose field the
+ * termination method is.
  **/
 class TerminationMethod {
 protected:
@@ -105,6 +108,7 @@ public:
     int getMaxNumberOfIterations();
     /**
      * @brief Abstract function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
      */
     virtual bool termination(OptimizationMethod *optimizationMethod) = 0;
 };
@@ -116,6 +120,10 @@ class TerminationMethodProb1 : public TerminationMethod {
 public:
     TerminationMethodProb1() = default;
     explicit TerminationMethodProb1(double eps, int maxNumberOfIterations = 1000);
+    /**
+     * @brief Function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
+     */
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
@@ -126,6 +134,10 @@ class TerminationMethodProb2 : public TerminationMethod {
 public:
     TerminationMethodProb2() = default;
     explicit TerminationMethodProb2(int maxNumberOfIterations);
+    /**
+     * @brief Function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
+     */
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
@@ -136,6 +148,10 @@ class TerminationMethodProb3 : public TerminationMethod {
 public:
     TerminationMethodProb3() = default;
     explicit TerminationMethodProb3(int maxNumberOfIterations);
+    /**
+     * @brief Function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
+     */
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
@@ -146,6 +162,10 @@ class TerminationMethodGrad1 : public TerminationMethod {
 public:
     TerminationMethodGrad1() = default;
     explicit TerminationMethodGrad1(double eps, int maxNumberOfIterations = 1000);
+    /**
+     * @brief Function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
+     */
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
@@ -156,6 +176,10 @@ class TerminationMethodGrad2 : public TerminationMethod {
 public:
     TerminationMethodGrad2() = default;
     explicit TerminationMethodGrad2(double eps, int maxNumberOfIterations = 1000);
+    /**
+     * @brief Function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
+     */
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
@@ -166,6 +190,10 @@ class TerminationMethodGrad3 : public TerminationMethod {
 public:
     TerminationMethodGrad3() = default;
     explicit TerminationMethodGrad3(double eps, int maxNumberOfIterations = 1000);
+    /**
+     * @brief Function for checking the completion of an optimization method.
+     * @param optimizationMethod A pointer to the parent class.
+     */
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
@@ -194,6 +222,9 @@ public:
     TerminationMethod* getTerminationMethod();
     int getNumberOfIterations();
     int getNumberOfIterationsSinceTheLastImprovement();
+    /**
+     * @brief Abstract optimization function.
+     */
     virtual void optimization() = 0;
 };
 
@@ -213,6 +244,9 @@ public:
     OptimizationMethodProb() = default;
     OptimizationMethodProb(Function *function, std::vector<double> x_0, Area area,
                            TerminationMethod *terminationMethod);
+    /**
+     * @brief Optimization function.
+     */
     void optimization() override;
 };
 
@@ -222,15 +256,17 @@ public:
 class  OptimizationMethodGrad : public OptimizationMethod {
 private:
     std::vector<double> p;
-
-public:
-    OptimizationMethodGrad() = default;
-    OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
-                           TerminationMethod *terminationMethod);
     void pCorrect();
     std::vector<std::pair<std::vector<double>, std::vector<double>>> pSplit(int numberOfSubvectors = 100);
     std::pair<std::vector<double>, double> dichotomyMethod(std::pair<std::vector<double>, std::vector<double>> vector,
                                                            double eps);
+public:
+    OptimizationMethodGrad() = default;
+    OptimizationMethodGrad(Function *function, std::vector<double> x_0, Area area,
+                           TerminationMethod *terminationMethod);
+    /**
+     * @brief Optimization function.
+     */
     void optimization() override;
 };
 
