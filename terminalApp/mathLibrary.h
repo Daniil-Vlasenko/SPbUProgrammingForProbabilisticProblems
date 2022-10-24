@@ -3,7 +3,7 @@
 #include <vector>
 #include <random>
 #include <chrono>
-#include <cassert>
+
 
 class Function {
 protected:
@@ -23,25 +23,28 @@ public:
 class Function1 : public Function {
 public:
     Function1();
-    double calculation(std::vector<double> x) override; // F = (x+1)^2 + (y+1)^2
+    double calculation(std::vector<double> x) override; // F = (1 - x)^2 + 100 * (y - x^2)^2; F(1,1) = 0.
 };
 
 class Function2 : public Function {
 public:
     Function2();
-    double calculation(std::vector<double> x) override; // F = x^2 * y^2 + (y + 1)^2
+    double calculation(std::vector<double> x) override; // F = x^2 * y^2 + (y + 1)^2; F(0, -1) = 0.
 };
 
 class Function3 : public Function {
 public:
     Function3();
-    double calculation(std::vector<double> x) override; // F = exp(x) + y^2
+    double calculation(std::vector<double> x) override; // F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 +
+                                                        // (2.625 - x + xy^3)^2; F(3,0.5) = 0.
 };
 
 class Function4 : public Function {
 public:
     Function4();
-    double calculation(std::vector<double> x) override; // F = cos(x) + cos(y) + cos(z) + cos(t)
+    double calculation(std::vector<double> x) override; // F = 30 + (x^2 - 10 * cos(2 * pi * x)) +
+                                                        // (y^2 - 10 * cos(2 * pi * y)) + (z^2 - 10 * cos(2 * pi * z));
+                                                        // F(0,0,0) = 0.
 };
 
 class Area {
@@ -58,7 +61,7 @@ public:
 // нужна разная информация о процессе оптимизации и которые будут полем класса оптимизации.
 // Делать класс терминации вычислений наследником класса метода оптимизации странно,
 // но доступ к его полям все еще нужен. Выход: сделать класс терминайции полем класса метода
-// оптимизации, которому будет подаваться указатель на текущий метод оптимизации для поступа к его полям.
+// оптимизации, которому будет подаваться указатель на текущий метод оптимизации для доступа к его полям.
 class OptimizationMethod;
 
 class TerminationMethod {

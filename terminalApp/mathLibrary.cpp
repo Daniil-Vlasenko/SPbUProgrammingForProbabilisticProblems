@@ -19,7 +19,7 @@ Function1::Function1() : Function(2) {}
 
 double Function1::calculation(std::vector<double> x) {
     this->x = x;
-    F = (x[0] + 1) * (x[0] + 1) + (x[1] + 1) * (x[1] + 1);
+    F = (1 - x[0]) * (1 - x[0]) + 100 * (x[1] - x[0] * x[0]) * (x[1] - x[0] * x[0]);
     return F;
 }
 //----------------------------------------------------------------------------------------------------
@@ -35,15 +35,19 @@ Function3::Function3() : Function(2) {}
 
 double Function3::calculation(std::vector<double> x) {
     this->x = x;
-    F = std::exp(x[0]) + x[1] * x[1];
+    F = (1.5 - x[0] + x[0] * x[1]) * (1.5 - x[0] + x[0] * x[1]) + (2.25 - x[0] + x[0] * x[1] * x[1]) *
+            (2.25 - x[0] + x[0] * x[1] * x[1]) + (2.625 - x[0] + x[0] * x[1] * x[1] * x[1]) *
+            (2.625 - x[0] + x[0] * x[1] * x[1] * x[1]);
     return F;
 }
 //----------------------------------------------------------------------------------------------------
-Function4::Function4() : Function(4) {}
+Function4::Function4() : Function(3) {}
 
 double Function4::calculation(std::vector<double> x) {
     this->x = x;
-    F = std::cos(x[0]) + std::cos(x[1]) + std::cos(x[2]) + std::cos(x[3]);
+    F = 30 + (x[0] * x[0] - 10 * std::cos(2 * std::numbers::pi * x[0])) +
+             (x[1] * x[1] - 10 * std::cos(2 * std::numbers::pi * x[1])) +
+             (x[2] * x[2] - 10 * std::cos(2 * std::numbers::pi * x[2]));
     return F;
 }
 //----------------------------------------------------------------------------------------------------

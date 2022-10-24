@@ -2,14 +2,15 @@
 
 int main() {
     bool repeat = true;
+    std::cout << "Finding the minimum of a function, by Daniil Vlasenko.\n";
 
     while(repeat) {
-        system("clear");
-
-        std::cout << "Finding the minimum of a function, by Daniil Vlasenko.\n\n";
         int functionInt = -1;
-        std::cout << "Selecting the function.\n1. F = (x+1)^2 + (y+1)^2;\n2. F = x^2 * y^2 + (y + 1)^2;\n"
-                     "3. F = exp(x) + y^2;\n4. F = cos(x) + cos(y) + cos(z) + cos(t).\n"
+        std::cout << "\nSelecting the function.\n1. F = (1-x)^2 + 100(y-x^2)^2, Rosenbrock function;\n"
+                     "2. F = x^2 * y^2 + (y + 1)^2;\n"
+                     "3. F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 + (2.625 - x + xy^3)^2, Beale function;\n"
+                     "4. F = 30 + (x^2 - 10 * cos(2 * pi * x)) + (y^2 - 10 * cos(2 * pi * y)) + (z^2 - 10 * cos(2 * pi * z)), "
+                     "Rastrigin function.\n"
                      "Writ down a number of the function: ";
         std::cin >> functionInt;
         Function *function;
