@@ -4,7 +4,9 @@
 #include <random>
 #include <chrono>
 
-
+/**
+ * @brief Abstract class of the minimizing function.
+ **/
 class Function {
 protected:
     int dimensions;
@@ -13,40 +15,69 @@ protected:
 
 public:
     Function() = default;
+    virtual ~Function() = default;
     explicit Function(int dimensions);
     int getDimensions();
     std::vector<double> getX();
     double getF();
+    /**
+     * @brief Abstract function for calculation of the function.
+     */
     virtual double calculation(std::vector<double> x) = 0;
 };
 
+/**
+ * @brief F = (1-x)^2 + 100(y-x^2)^2, Rosenbrock function. Minimum F is F(1,1) = 0.
+ **/
 class Function1 : public Function {
 public:
     Function1();
-    double calculation(std::vector<double> x) override; // F = (1 - x)^2 + 100 * (y - x^2)^2; F(1,1) = 0.
+    /**
+     * @brief Calculation of the function.
+     */
+    double calculation(std::vector<double> x) override;
 };
 
+/**
+ * @brief F = x^2 * y^2 + (y + 1)^2. Minimum F is F(0,-1) = 0.
+ **/
 class Function2 : public Function {
 public:
     Function2();
-    double calculation(std::vector<double> x) override; // F = x^2 * y^2 + (y + 1)^2; F(0, -1) = 0.
+    /**
+     * @brief Calculation of the function.
+     */
+    double calculation(std::vector<double> x) override;
 };
 
+/**
+ * @brief F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 + (2.625 - x + xy^3)^2, Beale function. Minimum F(3,0.5) = 0.
+ **/
 class Function3 : public Function {
 public:
     Function3();
-    double calculation(std::vector<double> x) override; // F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 +
-                                                        // (2.625 - x + xy^3)^2; F(3,0.5) = 0.
+    /**
+     * @brief Calculation of the function.
+     */
+    double calculation(std::vector<double> x) override;
 };
 
+/**
+ * @brief F = 30 + (x^2 - 10 * cos(2 * pi * x)) + (y^2 - 10 * cos(2 * pi * y)) + (z^2 - 10 * cos(2 * pi * z)),
+ * Rastrigin function. Minimum F(0,0,0) = 0.
+ **/
 class Function4 : public Function {
 public:
     Function4();
-    double calculation(std::vector<double> x) override; // F = 30 + (x^2 - 10 * cos(2 * pi * x)) +
-                                                        // (y^2 - 10 * cos(2 * pi * y)) + (z^2 - 10 * cos(2 * pi * z));
-                                                        // F(0,0,0) = 0.
+    /**
+     * @brief Calculation of the function.
+     */
+    double calculation(std::vector<double> x) override;
 };
 
+/**
+ * @brief Class of the minimization area.
+ **/
 class Area {
 private:
     std::vector<std::pair<double, double>> box;
@@ -57,25 +88,30 @@ public:
     std::vector<std::pair<double, double>> getBox();
 };
 
-// Что происходит далее. Мне нужен абстрактный класс остановки оптимизации, наследникам которого
-// нужна разная информация о процессе оптимизации и которые будут полем класса оптимизации.
-// Делать класс терминации вычислений наследником класса метода оптимизации странно,
-// но доступ к его полям все еще нужен. Выход: сделать класс терминайции полем класса метода
-// оптимизации, которому будет подаваться указатель на текущий метод оптимизации для доступа к его полям.
 class OptimizationMethod;
 
+/**
+ * @brief Abstract class of the termination method.
+ **/
 class TerminationMethod {
 protected:
     double eps;
     int maxNumberOfIterations;
 public:
     TerminationMethod() = default;
+    virtual ~TerminationMethod() = default;
     TerminationMethod(double eps, int maxNumberOfIterations);
     double getEps();
     int getMaxNumberOfIterations();
+    /**
+     * @brief Abstract function for checking the completion of an optimization method.
+     */
     virtual bool termination(OptimizationMethod *optimizationMethod) = 0;
 };
 
+/**
+ * @brief Class of the termination method: ||f(x_{n+j}) − f(x_{n})| < eps, j = min{m: f(x_{n+m}) < f(x_{n})}.
+ **/
 class TerminationMethodProb1 : public TerminationMethod {
 public:
     TerminationMethodProb1() = default;
@@ -83,6 +119,9 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+/**
+ * @brief Class of the termination method: number of iterations is greater than n.
+ **/
 class TerminationMethodProb2 : public TerminationMethod {
 public:
     TerminationMethodProb2() = default;
@@ -90,6 +129,9 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+/**
+ * @brief Class of the termination method: number of iterations since the last improvement is greater than n.
+ **/
 class TerminationMethodProb3 : public TerminationMethod {
 public:
     TerminationMethodProb3() = default;
@@ -97,6 +139,9 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+/**
+ * @brief Class of the termination method: ||grad f(x_{n})|| < eps.
+ **/
 class TerminationMethodGrad1 : public TerminationMethod {
 public:
     TerminationMethodGrad1() = default;
@@ -104,6 +149,9 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+/**
+ * @brief Class of the termination method: ||x_{n} - x_{n-1}|| < eps.
+ **/
 class TerminationMethodGrad2 : public TerminationMethod {
 public:
     TerminationMethodGrad2() = default;
@@ -111,6 +159,9 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+/**
+ * @brief Class of the termination method: ||(f(x_{n}) - f(x_{n-1})/f(x_n)|| < eps.
+ **/
 class TerminationMethodGrad3 : public TerminationMethod {
 public:
     TerminationMethodGrad3() = default;
@@ -118,6 +169,9 @@ public:
     bool termination(OptimizationMethod *optimizationMethod) override;
 };
 
+/**
+ * @brief Abstract class of the optimization method.
+ **/
 class OptimizationMethod {
 protected:
     std::vector<std::vector<double>> sequenceOfX_i;
@@ -130,6 +184,7 @@ protected:
 
 public:
     OptimizationMethod() = default;
+    virtual ~OptimizationMethod();
     OptimizationMethod(Function *function, std::vector<double> x_0, Area aria,
                        TerminationMethod *terminationMethod);
     std::vector<std::vector<double>> getSequenceOfX_i();
@@ -142,6 +197,9 @@ public:
     virtual void optimization() = 0;
 };
 
+/**
+ * @brief Class of the probability optimization method.
+ **/
 class OptimizationMethodProb : public OptimizationMethod {
 private:
     unsigned seed;
@@ -158,6 +216,9 @@ public:
     void optimization() override;
 };
 
+/**
+ * @brief Class of the gradient optimization method.
+ **/
 class  OptimizationMethodGrad : public OptimizationMethod {
 private:
     std::vector<double> p;
@@ -175,6 +236,3 @@ public:
 
 double partialDerivative(Function *function, int axis, std::vector<double> x, double deltaX);
 std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX);
-
-
-

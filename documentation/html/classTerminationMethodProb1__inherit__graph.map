@@ -1,0 +1,4 @@
+<map id="TerminationMethodProb1" name="TerminationMethodProb1">
+<area shape="rect" id="node1" title="Class of the termination method: ||f(x_{n+j}) − f(x_{n})| &lt; eps, j = min{m: f(x_{n+m}) &lt; f(x_{n})}." alt="" coords="5,80,191,107"/>
+<area shape="rect" id="node2" href="$classTerminationMethod.html" title="Abstract class of the termination method." alt="" coords="24,5,172,32"/>
+</map>

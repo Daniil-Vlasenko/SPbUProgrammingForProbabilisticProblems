@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classFunction.html" title="Abstract class of the minimizing function." alt="" coords="5,81,83,108"/>
+<area shape="rect" id="node2" href="$classFunction1.html" title="F = (1&#45;x)^2 + 100(y&#45;x^2)^2, Rosenbrock function. Minimum F is F(1,1) = 0." alt="" coords="131,5,216,32"/>
+<area shape="rect" id="node3" href="$classFunction2.html" title="F = x^2 * y^2 + (y + 1)^2. Minimum F is F(0,&#45;1) = 0." alt="" coords="131,56,216,83"/>
+<area shape="rect" id="node4" href="$classFunction3.html" title="F = (1.5 &#45; x + xy)^2 + (2.25 &#45; x + x * y^2)^2 + (2.625 &#45; x + xy^3)^2, Beale function...." alt="" coords="131,107,216,133"/>
+<area shape="rect" id="node5" href="$classFunction4.html" title="F = 30 + (x^2 &#45; 10 * cos(2 * pi * x)) + (y^2 &#45; 10 * cos(2 * pi * y)) + (z^2 &#45; 10 * cos(2 * pi * z)),..." alt="" coords="131,157,216,184"/>
+</map>

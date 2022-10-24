@@ -1,0 +1,93 @@
+\hypertarget{classOptimizationMethod}{}\doxysection{Optimization\+Method Class Reference}
+\label{classOptimizationMethod}\index{OptimizationMethod@{OptimizationMethod}}
+
+
+Abstract class of the optimization method.  
+
+
+
+
+{\ttfamily \#include $<$math\+Library.\+h$>$}
+
+
+
+Inheritance diagram for Optimization\+Method\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classOptimizationMethod__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Optimization\+Method\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classOptimizationMethod__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a1b81050a45c8315673512ff93c91fef8}\label{classOptimizationMethod_a1b81050a45c8315673512ff93c91fef8}} 
+{\bfseries Optimization\+Method} (\mbox{\hyperlink{classFunction}{Function}} $\ast$function, std\+::vector$<$ double $>$ x\+\_\+0, \mbox{\hyperlink{classArea}{Area}} aria, \mbox{\hyperlink{classTerminationMethod}{Termination\+Method}} $\ast$termination\+Method)
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_abc3c49644de7ef77b1b0db70f0c48fa1}\label{classOptimizationMethod_abc3c49644de7ef77b1b0db70f0c48fa1}} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries get\+Sequence\+Of\+X\+\_\+i} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a53fcf9a04bdc8eb84bbb351348a8a3e5}\label{classOptimizationMethod_a53fcf9a04bdc8eb84bbb351348a8a3e5}} 
+std\+::vector$<$ double $>$ {\bfseries get\+Sequence\+Of\+F\+\_\+i} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_aa7dcaf24213711233704f9f2c704c77a}\label{classOptimizationMethod_aa7dcaf24213711233704f9f2c704c77a}} 
+\mbox{\hyperlink{classFunction}{Function}} $\ast$ {\bfseries get\+Function} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a90e0d2eb863f597d907f5846f141b1ba}\label{classOptimizationMethod_a90e0d2eb863f597d907f5846f141b1ba}} 
+\mbox{\hyperlink{classArea}{Area}} {\bfseries get\+Area} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a6be956fc23352002c6f04ef105c8a756}\label{classOptimizationMethod_a6be956fc23352002c6f04ef105c8a756}} 
+\mbox{\hyperlink{classTerminationMethod}{Termination\+Method}} $\ast$ {\bfseries get\+Termination\+Method} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a80606cdc893cdc7c34d656940e2db983}\label{classOptimizationMethod_a80606cdc893cdc7c34d656940e2db983}} 
+int {\bfseries get\+Number\+Of\+Iterations} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a01aa6b39f38eb1112b2f12a658db68f1}\label{classOptimizationMethod_a01aa6b39f38eb1112b2f12a658db68f1}} 
+int {\bfseries get\+Number\+Of\+Iterations\+Since\+The\+Last\+Improvement} ()
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a7bfb18b24f412948d654ff28db6a0d46}\label{classOptimizationMethod_a7bfb18b24f412948d654ff28db6a0d46}} 
+virtual void {\bfseries optimization} ()=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a830548bf5682f42683ea981d5cfaa825}\label{classOptimizationMethod_a830548bf5682f42683ea981d5cfaa825}} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries sequence\+Of\+X\+\_\+i}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_adc01c70e0ebeb4029b1e04d5bff55ffc}\label{classOptimizationMethod_adc01c70e0ebeb4029b1e04d5bff55ffc}} 
+std\+::vector$<$ double $>$ {\bfseries sequence\+Of\+F\+\_\+i}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_aa288b2216f7b2922017bc96028441789}\label{classOptimizationMethod_aa288b2216f7b2922017bc96028441789}} 
+\mbox{\hyperlink{classFunction}{Function}} $\ast$ {\bfseries function}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a473b4e77c70352c66fa7dd29feb48a73}\label{classOptimizationMethod_a473b4e77c70352c66fa7dd29feb48a73}} 
+\mbox{\hyperlink{classArea}{Area}} {\bfseries area}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_ad327b5694b4d81179785179ebb4d4d39}\label{classOptimizationMethod_ad327b5694b4d81179785179ebb4d4d39}} 
+\mbox{\hyperlink{classTerminationMethod}{Termination\+Method}} $\ast$ {\bfseries termination\+Method}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_a9a6cd5e51a9eed4b6ffed708c921d2c3}\label{classOptimizationMethod_a9a6cd5e51a9eed4b6ffed708c921d2c3}} 
+int {\bfseries number\+Of\+Iterations}
+\item 
+\mbox{\Hypertarget{classOptimizationMethod_ae39e2f1feba7c5bb25a8b12dfc87fa7f}\label{classOptimizationMethod_ae39e2f1feba7c5bb25a8b12dfc87fa7f}} 
+int {\bfseries number\+Of\+Iterations\+Since\+The\+Last\+Improvement}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Abstract class of the optimization method. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/daniil/programming/cpp/\+SPb\+UProgramming\+For\+Probabilistic\+Problems/terminal\+App/math\+Library.\+h\end{DoxyCompactItemize}

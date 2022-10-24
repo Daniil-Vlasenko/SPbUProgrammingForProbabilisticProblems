@@ -1,0 +1,4 @@
+<map id="TerminationMethodGrad2" name="TerminationMethodGrad2">
+<area shape="rect" id="node1" title="Class of the termination method: ||x_{n} &#45; x_{n&#45;1}|| &lt; eps." alt="" coords="5,80,192,107"/>
+<area shape="rect" id="node2" href="$classTerminationMethod.html" title="Abstract class of the termination method." alt="" coords="25,5,173,32"/>
+</map>

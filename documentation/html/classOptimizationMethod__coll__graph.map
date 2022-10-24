@@ -1,0 +1,6 @@
+<map id="OptimizationMethod" name="OptimizationMethod">
+<area shape="rect" id="node1" title="Abstract class of the optimization method." alt="" coords="104,95,259,121"/>
+<area shape="rect" id="node2" href="$classFunction.html" title="Abstract class of the minimizing function." alt="" coords="5,5,83,32"/>
+<area shape="rect" id="node3" href="$classTerminationMethod.html" title="Abstract class of the termination method." alt="" coords="107,5,255,32"/>
+<area shape="rect" id="node4" href="$classArea.html" title="Class of the minimization area." alt="" coords="315,5,367,32"/>
+</map>

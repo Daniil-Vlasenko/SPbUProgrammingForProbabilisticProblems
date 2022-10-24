@@ -1,0 +1,5 @@
+<map id="OptimizationMethod" name="OptimizationMethod">
+<area shape="rect" id="node1" title="Abstract class of the optimization method." alt="" coords="125,5,280,32"/>
+<area shape="rect" id="node2" href="$classOptimizationMethodGrad.html" title="Class of the gradient optimization method." alt="" coords="5,80,192,107"/>
+<area shape="rect" id="node3" href="$classOptimizationMethodProb.html" title="Class of the probability optimization method." alt="" coords="216,80,400,107"/>
+</map>

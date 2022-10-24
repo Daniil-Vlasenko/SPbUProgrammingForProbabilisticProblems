@@ -145,6 +145,11 @@ bool TerminationMethodGrad3::termination(OptimizationMethod *optimizationMethod)
     return std::abs((sequenceOfF_i[size - 1] - sequenceOfF_i[size - 2]) / sequenceOfF_i[size - 1]) < eps;
 }
 //----------------------------------------------------------------------------------------------------
+OptimizationMethod::~OptimizationMethod() {
+    delete function;
+    delete terminationMethod;
+}
+
 OptimizationMethod::OptimizationMethod(Function *function, std::vector<double> x_0, Area aria,
                                        TerminationMethod *terminationMethod)
 : function(function), area(aria), terminationMethod(terminationMethod), numberOfIterations(0),

@@ -1,0 +1,4 @@
+<map id="Function4" name="Function4">
+<area shape="rect" id="node1" title="F = 30 + (x^2 &#45; 10 * cos(2 * pi * x)) + (y^2 &#45; 10 * cos(2 * pi * y)) + (z^2 &#45; 10 * cos(2 * pi * z)),..." alt="" coords="5,80,91,107"/>
+<area shape="rect" id="node2" href="$classFunction.html" title="Abstract class of the minimizing function." alt="" coords="9,5,87,32"/>
+</map>

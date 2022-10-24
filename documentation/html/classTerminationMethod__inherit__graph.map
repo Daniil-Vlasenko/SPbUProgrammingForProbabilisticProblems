@@ -1,0 +1,9 @@
+<map id="TerminationMethod" name="TerminationMethod">
+<area shape="rect" id="node1" title="Abstract class of the termination method." alt="" coords="5,132,153,159"/>
+<area shape="rect" id="node2" href="$classTerminationMethodGrad1.html" title="Class of the termination method: ||grad f(x_{n})|| &lt; eps." alt="" coords="201,5,388,32"/>
+<area shape="rect" id="node3" href="$classTerminationMethodGrad2.html" title="Class of the termination method: ||x_{n} &#45; x_{n&#45;1}|| &lt; eps." alt="" coords="201,56,388,83"/>
+<area shape="rect" id="node4" href="$classTerminationMethodGrad3.html" title="Class of the termination method: ||(f(x_{n}) &#45; f(x_{n&#45;1})/f(x_n)|| &lt; eps." alt="" coords="201,107,388,133"/>
+<area shape="rect" id="node5" href="$classTerminationMethodProb1.html" title="Class of the termination method: ||f(x_{n+j}) − f(x_{n})| &lt; eps, j = min{m: f(x_{n+m}) &lt; f(x_{n})}." alt="" coords="202,157,387,184"/>
+<area shape="rect" id="node6" href="$classTerminationMethodProb2.html" title="Class of the termination method: number of iterations is greater than n." alt="" coords="202,208,387,235"/>
+<area shape="rect" id="node7" href="$classTerminationMethodProb3.html" title="Class of the termination method: number of iterations since the last improvement is greater than n." alt="" coords="202,259,387,285"/>
+</map>

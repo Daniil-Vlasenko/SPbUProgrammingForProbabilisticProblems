@@ -1,0 +1,4 @@
+<map id="Function1" name="Function1">
+<area shape="rect" id="node1" title="F = (1&#45;x)^2 + 100(y&#45;x^2)^2, Rosenbrock function. Minimum F is F(1,1) = 0." alt="" coords="5,80,91,107"/>
+<area shape="rect" id="node2" href="$classFunction.html" title="Abstract class of the minimizing function." alt="" coords="9,5,87,32"/>
+</map>
