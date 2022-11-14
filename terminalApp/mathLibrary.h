@@ -63,8 +63,8 @@ public:
 };
 
 /**
- * @brief F = 30 + (x^2 - 10 * cos(2 * pi * x)) + (y^2 - 10 * cos(2 * pi * y)) + (z^2 - 10 * cos(2 * pi * z)),
- * Rastrigin function. Minimum F(0,0,0) = 0.
+ * @brief F = 100(y -x^2)^2 + (x - 1)^2 + 100(z - y^2)^2 + (y - 1)^2.
+ * Rastrigin function. Minimum F(1,1,1) = 0.
  **/
 class Function4 : public Function {
 public:

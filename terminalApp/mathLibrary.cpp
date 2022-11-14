@@ -45,9 +45,8 @@ Function4::Function4() : Function(3) {}
 
 double Function4::calculation(std::vector<double> x) {
     this->x = x;
-    F = 30 + (x[0] * x[0] - 10 * std::cos(2 * std::numbers::pi * x[0])) +
-             (x[1] * x[1] - 10 * std::cos(2 * std::numbers::pi * x[1])) +
-             (x[2] * x[2] - 10 * std::cos(2 * std::numbers::pi * x[2]));
+    F = 100 * (x[1] - x[0] * x[0]) * (x[1] - x[0] * x[0]) + (x[0] - 1) * (x[0] - 1) +
+        100 * (x[2] - x[1] * x[1]) * (x[2] - x[1] * x[1]) + (x[1] - 1) * (x[1] - 1);
     return F;
 }
 //----------------------------------------------------------------------------------------------------
@@ -209,17 +208,17 @@ void OptimizationMethodProb::optimization() {
     numberOfIterationsSinceTheLastImprovement = 0;
     int dimensions = function->getDimensions();
     std::vector<std::pair<double, double>> box = area.getBox();
+    bool isInSmallArea = false;
     while(!terminationMethod->termination(this)) {
         ++numberOfIterations;
         ++numberOfIterationsSinceTheLastImprovement;
-        bool isInSmallArea = false;
         std::vector<double> newX;
-        if(1 - p < distribution(generator)) { // Генерациия равномерного распределения во всем D.
+        if(1 - p > distribution(generator)) { // Генерациия равномерного распределения во всем D.
             for(int i = 0; i < dimensions; ++i) {
                 double min = box[i].first, max = box[i].second;
                 newX.push_back(distribution(generator) * (max - min) + min);
             }
-            b2 = b1;
+            isInSmallArea = false;
         }
         else { // Генерация в пересечении D и B(x_n, b2)
             for(int i = 0; i < dimensions; ++i) {
@@ -227,11 +226,17 @@ void OptimizationMethodProb::optimization() {
                     max = sequenceOfX_i.back()[i] + b2 < box[i].second ? sequenceOfX_i.back()[i] + b2 : box[i].second;
                 newX.push_back(distribution(generator) * (max - min) + min);
             }
-            b2 *= a;
+            isInSmallArea = true;
         }
         double newF;
         if((newF = function->calculation(newX)) < sequenceOfF_i.back()) {
-            std::cout << "b1: " << b1 << "; b2: " << b2 << std::endl;
+            if(isInSmallArea) {
+                b2 *= a;
+            }
+            else  {
+                b2 = b1;
+            }
+//            std::cout << "b1: " << b1 << "; b2: " << b2 << "; isInSmallArea: " << isInSmallArea << std::endl;
             sequenceOfF_i.push_back(newF);
             sequenceOfX_i.push_back(newX);
             numberOfIterationsSinceTheLastImprovement = 0;

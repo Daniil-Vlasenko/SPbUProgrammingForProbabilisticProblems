@@ -9,8 +9,7 @@ int main() {
         std::cout << "\nSelecting the function.\n1. F = (1-x)^2 + 100(y-x^2)^2, Rosenbrock function;\n"
                      "2. F = x^2 * y^2 + (y + 1)^2;\n"
                      "3. F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 + (2.625 - x + xy^3)^2, Beale function;\n"
-                     "4. F = 30 + (x^2 - 10 * cos(2 * pi * x)) + (y^2 - 10 * cos(2 * pi * y)) + (z^2 - 10 * cos(2 * pi * z)), "
-                     "Rastrigin function.\n"
+                     "4. F = 100(y -x^2)^2 + (x - 1)^2 + 100(z - y^2)^2 + (y - 1)^2, Rosenbrock function 3d. \n"
                      "Writ down a number of the function: ";
         std::cin >> functionInt;
         Function *function;
