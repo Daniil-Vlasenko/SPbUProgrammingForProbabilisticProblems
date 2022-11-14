@@ -59,7 +59,7 @@ int main() {
         TerminationMethod *terminationMethod;
         if (optimisationMethodInt == 1) {
             std::cout << "\nSelecting the termination method.\n1. ||grad f(x_{n})|| < eps;\n"
-                         "2. ||x_{n} - x_{n-1}|| < eps.\n3. ||(f(x_{n}) - f(x_{n-1})/f(x_n)|| < eps.\n"
+                         "2. ||x_{n} - x_{n-1}|| < eps.\n3. ||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| < eps.\n"
                          "Writ down a number of the method: ";
             std::cin >> terminationMethodInt;
             std::cout << "Write down eps: ";
@@ -79,6 +79,9 @@ int main() {
             }
             optimizationMethod = new OptimizationMethodGrad(function, x_0, area, terminationMethod);
         } else if (optimisationMethodInt == 2) {
+            double p, b, a;
+            std::cout << "\nSelect parameters p, b and a: ";
+            std::cin >> p >> b >> a;
             std::cout << "\nSelecting the termination method.\n"
                          "1. ||f(x_{n+j}) − f(x_{n})| < eps, j = min{m: f(x_{n+m}) < f(x_{n})};\n"
                          "2. Number of iterations is greater than n.\n"
@@ -104,7 +107,7 @@ int main() {
                 default:
                     return -1;
             }
-            optimizationMethod = new OptimizationMethodProb(function, x_0, area, terminationMethod);
+            optimizationMethod = new OptimizationMethodProb(function, x_0, area, terminationMethod, p, b, a);
         }
 
         optimizationMethod->optimization();

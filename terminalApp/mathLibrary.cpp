@@ -187,19 +187,21 @@ int OptimizationMethod::getNumberOfIterationsSinceTheLastImprovement() {
 }
 //----------------------------------------------------------------------------------------------------
 OptimizationMethodProb::OptimizationMethodProb(Function *function, std::vector<double> x_0, Area area,
-                       TerminationMethod *terminationMethod)
-: OptimizationMethod(function, x_0, area, terminationMethod),
+                       TerminationMethod *terminationMethod, double p, double b, double a)
+: OptimizationMethod(function, x_0, area, terminationMethod), p(p), b1(b), b2(b), a(a),
 seed(std::chrono::system_clock::now().time_since_epoch().count()), generator(seed), distribution(0, 1) {
     std::vector<std::pair<double, double>> box = area.getBox();
     int dimensions = function->getDimensions();
-    p = 0.5;
-    a = 0.5;
-    b1 = box[0].second - box[0].first;
-    for(int i = 1; i < dimensions; ++i) {
-        b1 = box[i].second - box[i].first < b1 ? box[i].second - box[i].first : b1;
+
+
+    if(b == -1) {
+        b1 = box[0].second - box[0].first;
+        for (int i = 1; i < dimensions; ++i) {
+            b1 = box[i].second - box[i].first < b1 ? box[i].second - box[i].first : b1;
+        }
+        b1 /= 10;
+        b2 = b1;
     }
-    b1 /= 10;
-    b2 = b1;
 }
 
 void OptimizationMethodProb::optimization() {
@@ -210,6 +212,7 @@ void OptimizationMethodProb::optimization() {
     while(!terminationMethod->termination(this)) {
         ++numberOfIterations;
         ++numberOfIterationsSinceTheLastImprovement;
+        bool isInSmallArea = false;
         std::vector<double> newX;
         if(1 - p < distribution(generator)) { // Генерациия равномерного распределения во всем D.
             for(int i = 0; i < dimensions; ++i) {
@@ -228,6 +231,7 @@ void OptimizationMethodProb::optimization() {
         }
         double newF;
         if((newF = function->calculation(newX)) < sequenceOfF_i.back()) {
+            std::cout << "b1: " << b1 << "; b2: " << b2 << std::endl;
             sequenceOfF_i.push_back(newF);
             sequenceOfX_i.push_back(newX);
             numberOfIterationsSinceTheLastImprovement = 0;

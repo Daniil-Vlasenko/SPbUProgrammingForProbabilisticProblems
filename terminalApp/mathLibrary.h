@@ -119,7 +119,7 @@ public:
 class TerminationMethodProb1 : public TerminationMethod {
 public:
     TerminationMethodProb1() = default;
-    explicit TerminationMethodProb1(double eps, int maxNumberOfIterations = 1000);
+    explicit TerminationMethodProb1(double eps, int maxNumberOfIterations = 2000);
     /**
      * @brief Function for checking the completion of an optimization method.
      * @param optimizationMethod A pointer to the parent class.
@@ -161,7 +161,7 @@ public:
 class TerminationMethodGrad1 : public TerminationMethod {
 public:
     TerminationMethodGrad1() = default;
-    explicit TerminationMethodGrad1(double eps, int maxNumberOfIterations = 1000);
+    explicit TerminationMethodGrad1(double eps, int maxNumberOfIterations = 2000);
     /**
      * @brief Function for checking the completion of an optimization method.
      * @param optimizationMethod A pointer to the parent class.
@@ -175,7 +175,7 @@ public:
 class TerminationMethodGrad2 : public TerminationMethod {
 public:
     TerminationMethodGrad2() = default;
-    explicit TerminationMethodGrad2(double eps, int maxNumberOfIterations = 1000);
+    explicit TerminationMethodGrad2(double eps, int maxNumberOfIterations = 2000);
     /**
      * @brief Function for checking the completion of an optimization method.
      * @param optimizationMethod A pointer to the parent class.
@@ -189,7 +189,7 @@ public:
 class TerminationMethodGrad3 : public TerminationMethod {
 public:
     TerminationMethodGrad3() = default;
-    explicit TerminationMethodGrad3(double eps, int maxNumberOfIterations = 1000);
+    explicit TerminationMethodGrad3(double eps, int maxNumberOfIterations = 2000);
     /**
      * @brief Function for checking the completion of an optimization method.
      * @param optimizationMethod A pointer to the parent class.
@@ -242,8 +242,11 @@ private:
 
 public:
     OptimizationMethodProb() = default;
+    /**
+     * @brief If the parameter b is not set, it is defined as 0.1 length of the narrowest side of the box.
+     * */
     OptimizationMethodProb(Function *function, std::vector<double> x_0, Area area,
-                           TerminationMethod *terminationMethod);
+                           TerminationMethod *terminationMethod, double p = 0.5, double b = -1, double a = 0.5);
     /**
      * @brief Optimization function.
      */
@@ -251,7 +254,8 @@ public:
 };
 
 /**
- * @brief Class of the gradient optimization method.
+ * @brief Class of the gradient optimization method. The gradient step is ten times
+ * smaller than the epsilon taken from the termination method.
  **/
 class  OptimizationMethodGrad : public OptimizationMethod {
 private:
