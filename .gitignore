@@ -1,2 +1,3 @@
 /terminalApp/cmake-build-debug
 *.idea
+/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug

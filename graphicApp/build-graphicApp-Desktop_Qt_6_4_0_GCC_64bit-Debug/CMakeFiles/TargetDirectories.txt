@@ -1,9 +1,0 @@
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/graphicApp.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/edit_cache.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/rebuild_cache.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/list_install_components.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/install.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/install/local.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/install/strip.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/graphicApp_autogen_timestamp_deps.dir
-/home/daniil/programming/cpp/SPbUProgrammingForProbabilisticProblems/graphicApp/build-graphicApp-Desktop_Qt_6_4_0_GCC_64bit-Debug/CMakeFiles/graphicApp_autogen.dir
