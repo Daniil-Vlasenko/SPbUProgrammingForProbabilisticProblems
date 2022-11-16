@@ -1,6 +1,7 @@
 #include "mathLibrary.h"
 
 int main() {
+    std::string tmp;
     bool repeat = true;
     std::cout << "Finding the minimum of a function, by Daniil Vlasenko.\n";
 
@@ -41,7 +42,6 @@ int main() {
         std::vector<std::pair<double, double>> box(dimensions);
         try {
             std::cout << "\nSelecting the starting point.\nWrite down coordinates of x_{0} with a space: ";
-            std::string tmp;
             for (int i = 0; i < dimensions; ++i) {
                 std::cin >> tmp;
                 x_0[i] = std::stod(tmp);
@@ -70,23 +70,32 @@ int main() {
             double eps = -1;
             std::cout << "\nSelecting the optimisation method.\n1. Gradient descent (derived numerically);\n"
                          "2. Stochastic method.\nWrit down a number of the method: ";
-            std::cin >> optimisationMethodInt;
+            std::cin >> tmp;
+            optimisationMethodInt = std::stod(tmp);
             switch(optimisationMethodInt) {
                 case 1:
                     std::cout << "\nSelecting the termination method.\n1. ||grad f(x_{n})|| < eps;\n"
                                  "2. ||x_{n} - x_{n-1}|| < eps.\n3. ||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| < eps.\n"
                                  "Writ down a number of the method: ";
-                    std::cin >> terminationMethodInt;
-                    std::cout << "Write down eps: ";
-                    std::cin >> eps;
+                    std::cin >> tmp;
+                    terminationMethodInt = std::stod(tmp);
                     switch (terminationMethodInt) {
                         case 1:
+                            std::cout << "Write down eps: ";
+                            std::cin >> tmp;
+                            eps = std::stod(tmp);
                             terminationMethod = new TerminationMethodGrad1(eps);
                             break;
                         case 2:
+                            std::cout << "Write down eps: ";
+                            std::cin >> tmp;
+                            eps = std::stod(tmp);
                             terminationMethod = new TerminationMethodGrad2(eps);
                             break;
                         case 3:
+                            std::cout << "Write down eps: ";
+                            std::cin >> tmp;
+                            eps = std::stod(tmp);
                             terminationMethod = new TerminationMethodGrad3(eps);
                             break;
                         default:
@@ -103,21 +112,25 @@ int main() {
                                  "2. Number of iterations is greater than n.\n"
                                  "3. Number of iterations since the last improvement is greater than n.\n"
                                  "Writ down a number of the method: ";
-                    std::cin >> terminationMethodInt;
+                    std::cin >> tmp;
+                    terminationMethodInt = std::stod(tmp);
                     switch (terminationMethodInt) {
                         case 1:
                             std::cout << "Write down eps: ";
-                            std::cin >> eps;
+                            std::cin >> tmp;
+                            eps = std::stod(tmp);
                             terminationMethod = new TerminationMethodProb1(eps);
                             break;
                         case 2:
                             std::cout << "Write down n: ";
-                            std::cin >> maxNumberOfIterates;
+                            std::cin >> tmp;
+                            maxNumberOfIterates = std::stod(tmp);
                             terminationMethod = new TerminationMethodProb2(maxNumberOfIterates);
                             break;
                         case 3:
                             std::cout << "Write down n: ";
-                            std::cin >> maxNumberOfIterates;
+                            std::cin >> tmp;
+                            maxNumberOfIterates = std::stod(tmp);
                             terminationMethod = new TerminationMethodProb3(maxNumberOfIterates);
                             break;
                         default:
