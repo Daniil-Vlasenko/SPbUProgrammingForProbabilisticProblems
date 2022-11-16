@@ -1,7 +1,7 @@
 #include "mathLibrary.h"
 
 int main() {
-    std::string tmp;
+    std::string tmp1, tmp2, tmp3;
     bool repeat = true;
     std::cout << "Finding the minimum of a function, by Daniil Vlasenko.\n";
 
@@ -43,8 +43,8 @@ int main() {
         try {
             std::cout << "\nSelecting the starting point.\nWrite down coordinates of x_{0} with a space: ";
             for (int i = 0; i < dimensions; ++i) {
-                std::cin >> tmp;
-                x_0[i] = std::stod(tmp);
+                std::cin >> tmp1;
+                x_0[i] = std::stod(tmp1);
             }
 
             std::cout << "\nSelecting the area of minimization.\nWrite down coordinates of boundaries of the minimization area:\n";
@@ -70,32 +70,41 @@ int main() {
             double eps = -1;
             std::cout << "\nSelecting the optimisation method.\n1. Gradient descent (derived numerically);\n"
                          "2. Stochastic method.\nWrit down a number of the method: ";
-            std::cin >> tmp;
-            optimisationMethodInt = std::stod(tmp);
+            std::cin >> tmp1;
+            optimisationMethodInt = std::stod(tmp1);
             switch(optimisationMethodInt) {
                 case 1:
                     std::cout << "\nSelecting the termination method.\n1. ||grad f(x_{n})|| < eps;\n"
                                  "2. ||x_{n} - x_{n-1}|| < eps.\n3. ||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| < eps.\n"
                                  "Writ down a number of the method: ";
-                    std::cin >> tmp;
-                    terminationMethodInt = std::stod(tmp);
+                    std::cin >> tmp1;
+                    terminationMethodInt = std::stod(tmp1);
                     switch (terminationMethodInt) {
                         case 1:
                             std::cout << "Write down eps: ";
-                            std::cin >> tmp;
-                            eps = std::stod(tmp);
+                            std::cin >> tmp1;
+                            eps = std::stod(tmp1);
+                            if(eps < 0) {
+                                throw(-1);
+                            }
                             terminationMethod = new TerminationMethodGrad1(eps);
                             break;
                         case 2:
                             std::cout << "Write down eps: ";
-                            std::cin >> tmp;
-                            eps = std::stod(tmp);
+                            std::cin >> tmp1;
+                            eps = std::stod(tmp1);
+                            if(eps < 0) {
+                                throw(-1);
+                            }
                             terminationMethod = new TerminationMethodGrad2(eps);
                             break;
                         case 3:
                             std::cout << "Write down eps: ";
-                            std::cin >> tmp;
-                            eps = std::stod(tmp);
+                            std::cin >> tmp1;
+                            eps = std::stod(tmp1);
+                            if(eps < 0) {
+                                throw(-1);
+                            }
                             terminationMethod = new TerminationMethodGrad3(eps);
                             break;
                         default:
@@ -104,37 +113,50 @@ int main() {
                     optimizationMethod = new OptimizationMethodGrad(function, x_0, area, terminationMethod);
                     break;
                 case 2:
-                    double p, b, a;
                     std::cout << "\nSelect parameters p, b and a: ";
-                    std::cin >> p >> b >> a;
+                    std::cin >> tmp1 >> tmp2 >> tmp3;
+                    double p, b, a;
+                    p = std::stod(tmp1), b = std::stod(tmp2), a = std::stod(tmp3);
+                    if(p < 0 or p > 1 or b < 0 or a <= 0 or a > 1) {
+                        throw(-1);
+                    }
                     std::cout << "\nSelecting the termination method.\n"
                                  "1. ||f(x_{n+j}) − f(x_{n})| < eps, j = min{m: f(x_{n+m}) < f(x_{n})};\n"
                                  "2. Number of iterations is greater than n.\n"
                                  "3. Number of iterations since the last improvement is greater than n.\n"
                                  "Writ down a number of the method: ";
-                    std::cin >> tmp;
-                    terminationMethodInt = std::stod(tmp);
+                    std::cin >> tmp1;
+                    terminationMethodInt = std::stod(tmp1);
                     switch (terminationMethodInt) {
                         case 1:
                             std::cout << "Write down eps: ";
-                            std::cin >> tmp;
-                            eps = std::stod(tmp);
+                            std::cin >> tmp1;
+                            eps = std::stod(tmp1);
+                            if(eps < 0) {
+                                throw(-1);
+                            }
                             terminationMethod = new TerminationMethodProb1(eps);
                             break;
                         case 2:
                             std::cout << "Write down n: ";
-                            std::cin >> tmp;
-                            maxNumberOfIterates = std::stod(tmp);
+                            std::cin >> tmp1;
+                            maxNumberOfIterates = std::stod(tmp1);
+                            if(maxNumberOfIterates <= 0) {
+                                throw(-1);
+                            }
                             terminationMethod = new TerminationMethodProb2(maxNumberOfIterates);
                             break;
                         case 3:
                             std::cout << "Write down n: ";
-                            std::cin >> tmp;
-                            maxNumberOfIterates = std::stod(tmp);
+                            std::cin >> tmp1;
+                            maxNumberOfIterates = std::stod(tmp1);
+                            if(maxNumberOfIterates <= 0) {
+                                throw(-1);
+                            }
                             terminationMethod = new TerminationMethodProb3(maxNumberOfIterates);
                             break;
                         default:
-                            throw (-1);
+                            throw(-1);
                     }
                     optimizationMethod = new OptimizationMethodProb(function, x_0, area, terminationMethod, p, b, a);
                     break;
