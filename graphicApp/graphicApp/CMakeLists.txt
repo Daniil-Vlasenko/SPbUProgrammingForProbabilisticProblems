@@ -21,6 +21,12 @@ set(PROJECT_SOURCES
         mainwindow.ui
         ../../terminalApp/mathLibrary.cpp
         ../../terminalApp/mathLibrary.h
+        select_function.cpp
+        select_function.h
+        select_function.ui
+        select_method.cpp
+        select_method.h
+        select_method.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
