@@ -31,14 +31,14 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="radioButton_P">
         <property name="text">
          <string>Stochastic method</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QRadioButton" name="radioButton_2">
+       <widget class="QRadioButton" name="radioButton_G">
         <property name="text">
          <string>Gradient descent (derived numerically)</string>
         </property>
@@ -80,7 +80,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="lineEdit_Pb"/>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_6">
@@ -90,10 +90,10 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QLineEdit" name="lineEdit_Pa"/>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="lineEdit_Pp"/>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_4">
@@ -122,7 +122,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout">
             <item row="1" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_4">
+             <widget class="QRadioButton" name="radioButton_PT2">
               <property name="text">
                <string>Number of iterations is greater than n</string>
               </property>
@@ -145,13 +145,13 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_5"/>
+                <widget class="QLineEdit" name="lineEdit_Pn"/>
                </item>
               </layout>
              </widget>
             </item>
             <item row="0" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_3">
+             <widget class="QRadioButton" name="radioButton_PT1">
               <property name="text">
                <string>||f(x_{n+j}) − f(x_{n})| &lt; eps, j = min{m: f(x_{n+m}) &lt; f(x_{n})}</string>
               </property>
@@ -177,13 +177,13 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_4"/>
+                <widget class="QLineEdit" name="lineEdit_PEps"/>
                </item>
               </layout>
              </widget>
             </item>
             <item row="2" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_5">
+             <widget class="QRadioButton" name="radioButton_PT3">
               <property name="text">
                <string>Number of iterations since the last improvement is greater than n</string>
               </property>
@@ -224,14 +224,14 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="1" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_6">
+             <widget class="QRadioButton" name="radioButton_ST2">
               <property name="text">
                <string>||x_{n} - x_{n-1}|| &lt; eps</string>
               </property>
              </widget>
             </item>
             <item row="0" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_7">
+             <widget class="QRadioButton" name="radioButton_ST1">
               <property name="text">
                <string>||grad f(x_{n})|| &lt; eps</string>
               </property>
@@ -257,13 +257,13 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_10"/>
+                <widget class="QLineEdit" name="lineEdit_GEps"/>
                </item>
               </layout>
              </widget>
             </item>
             <item row="2" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_8">
+             <widget class="QRadioButton" name="radioButton_ST3">
               <property name="text">
                <string>||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| &lt; eps</string>
               </property>
@@ -301,14 +301,14 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pushButton_Cancel">
         <property name="text">
          <string>Cancel</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="pushButton_OK">
         <property name="text">
          <string>OK</string>
         </property>

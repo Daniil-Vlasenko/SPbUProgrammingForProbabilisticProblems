@@ -13,7 +13,45 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Graphic style</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_Graphic_style">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Text style</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_Text_style">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -44,7 +82,6 @@
    <addaction name="actionSelect_function"/>
    <addaction name="actionSelect_method"/>
    <addaction name="actionRun"/>
-   <addaction name="actionSwitch_style"/>
    <addaction name="actionHelp"/>
   </widget>
   <action name="actionSelect_function">
@@ -60,11 +97,6 @@
   <action name="actionRun">
    <property name="text">
     <string>Run</string>
-   </property>
-  </action>
-  <action name="actionSwitch_style">
-   <property name="text">
-    <string>Switch style</string>
    </property>
   </action>
   <action name="actionHelp">

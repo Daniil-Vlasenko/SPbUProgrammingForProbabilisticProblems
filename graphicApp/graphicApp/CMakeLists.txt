@@ -27,6 +27,9 @@ set(PROJECT_SOURCES
         select_method.cpp
         select_method.h
         select_method.ui
+        help.cpp
+        help.h
+        help.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
