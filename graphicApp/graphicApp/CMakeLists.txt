@@ -29,7 +29,7 @@ set(PROJECT_SOURCES
         select_method.ui
         help.cpp
         help.h
-        help.ui
+        help.ui                
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

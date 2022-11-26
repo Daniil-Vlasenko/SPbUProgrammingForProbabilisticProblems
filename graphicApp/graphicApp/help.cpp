@@ -12,3 +12,9 @@ Help::~Help()
 {
     delete ui;
 }
+
+void Help::on_pushButton_OK_clicked()
+{
+    close();
+}
+

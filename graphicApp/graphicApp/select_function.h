@@ -2,6 +2,7 @@
 #define SELECT_FUNCTION_H
 
 #include <QDialog>
+#include "../../terminalApp/mathLibrary.h"
 
 namespace Ui {
 class Select_function;
@@ -20,10 +21,16 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
+    void on_pushButton_Cancel_clicked();
+
 private:
     Ui::Select_function *ui;
 
-    int function = 0, x = 0, y = 0, z = 0, x1 = -5, x2 = 5, y1 = -5, y2 = 5, z1 = -5, z2 = 5;
+    int functionInt = 0;
+    double x = 0, y = 0, z = 0, x1 = -5, x2 = 5, y1 = -5, y2 = 5, z1 = -5, z2 = 5;
+    Function *function;
+    std::vector<double> x_0;
+    std::vector<std::pair<double, double>> box;
 };
 
 #endif // SELECT_FUNCTION_H
