@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "select_function.h"
+#include "select_method.h"
+#include "help.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +20,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+protected:
+    Select_function select_function_window;
+    Select_method select_method_window;
+    Help help_window;
+
+private slots:
+    void on_actionSelect_function_triggered();
+    void on_actionSelect_method_triggered();
+    void on_actionRun_triggered();
+    void on_actionHelp_triggered();
 };
 #endif // MAINWINDOW_H
