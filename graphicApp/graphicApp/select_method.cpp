@@ -57,27 +57,27 @@ void Select_method::on_pushButton_Cancel_clicked()
 void Select_method::on_pushButton_OK_clicked()
 {
     if(ui->radioButton_P->isChecked()) {
-        optimisationMethodId = 1;
+        optimisationMethodId = 0;
         if(ui->radioButton_PT1->isChecked()) {
-            terminationMethodIdP = 1;
+            terminationMethodIdP = 0;
         }
         else if(ui->radioButton_PT2->isChecked()) {
-            terminationMethodIdP = 2;
+            terminationMethodIdP = 1;
         }
         else {
-            terminationMethodIdP = 3;
+            terminationMethodIdP = 2;
         }
     }
     else {
-        optimisationMethodId = 2;
+        optimisationMethodId = 1;
         if(ui->radioButton_GT1->isChecked()) {
-            terminationMethodIdG = 1;
+            terminationMethodIdG = 0;
         }
         else if(ui->radioButton_GT2->isChecked()) {
-            terminationMethodIdG = 2;
+            terminationMethodIdG = 1;
         }
         else {
-            terminationMethodIdG = 3;
+            terminationMethodIdG = 2;
         }
     }
     p = ui->lineEdit_Pp->text().toDouble();

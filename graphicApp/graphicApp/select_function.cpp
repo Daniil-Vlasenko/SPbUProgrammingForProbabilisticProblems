@@ -15,7 +15,7 @@ Select_function::~Select_function()
 
 void Select_function::on_pushButton_OK_clicked()
 {
-    functionInt = ui->comboBox->currentIndex();
+    functionId = ui->comboBox->currentIndex();
 
     x = ui->lineEdit_x->text().toDouble();
     y = ui->lineEdit_y->text().toDouble();

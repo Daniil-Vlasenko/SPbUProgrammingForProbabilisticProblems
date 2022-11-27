@@ -16,6 +16,9 @@ public:
     explicit Select_function(QWidget *parent = nullptr);
     ~Select_function();
 
+    int functionId = 0;
+    double x = 0, y = 0, z = 0, x1 = -5, x2 = 5, y1 = -5, y2 = 5, z1 = -5, z2 = 5;
+
 private slots:
     void on_pushButton_OK_clicked();
 
@@ -24,10 +27,7 @@ private slots:
     void on_pushButton_Cancel_clicked();
 
 private:
-    Ui::Select_function *ui;
-
-    int functionInt = 0;
-    double x = 0, y = 0, z = 0, x1 = -5, x2 = 5, y1 = -5, y2 = 5, z1 = -5, z2 = 5;    
+    Ui::Select_function *ui;     
 };
 
 #endif // SELECT_FUNCTION_H

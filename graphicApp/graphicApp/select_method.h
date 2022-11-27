@@ -16,6 +16,9 @@ public:
     explicit Select_method(QWidget *parent = nullptr);
     ~Select_method();
 
+    int optimisationMethodId = 0, terminationMethodIdP = 0, terminationMethodIdG = 0, numberOfiterations = 1000;
+    double epsP = 0.001, epsG = 0.001, p = 0.5, b = 0.5, a = 0.5;
+
 private slots:
     void on_radioButton_G_clicked();
 
@@ -32,10 +35,7 @@ private slots:
     void on_pushButton_OK_clicked();
 
 private:
-    Ui::Select_method *ui;
-
-    int optimisationMethodId = 1, terminationMethodIdP = 1, terminationMethodIdG = 1, numberOfiterations = 1000;
-    double epsP = 0.001, epsG = 0.001, p = 0.5, b = 0.5, a = 0.5;
+    Ui::Select_method *ui;   
 };
 
 #endif // SELECT_METHOD_H
