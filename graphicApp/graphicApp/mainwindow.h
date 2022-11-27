@@ -26,6 +26,7 @@ protected:
     Select_function select_function_window;
     Select_method select_method_window;
     Help help_window;
+    OptimizationMethod* optimisationMethod;
 
 private slots:
     void on_actionSelect_function_triggered();
@@ -35,7 +36,5 @@ private slots:
 
     OptimizationMethod* run_calculation();
     std::string run_text();
-
-    OptimizationMethod* optimisationMethod;
 };
 #endif // MAINWINDOW_H
