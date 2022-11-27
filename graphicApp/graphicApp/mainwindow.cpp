@@ -144,15 +144,15 @@ std::string MainWindow::run_text() {
         switch(select_method_window.terminationMethodIdP) {
             case 0:
                 result += "Termination method: ||f(x_{n+j}) − f(x_{n})| < eps, j = min{m: f(x_{n+m}) < f(x_{n})} "
-                          "with eps =" + std::to_string(select_method_window.epsP) + "\n";
+                          "with eps = " + std::to_string(select_method_window.epsP) + "\n";
                 break;
             case 1:
                 result += "Termination method: number of iterations is greater than n "
-                          "with n =" + std::to_string(select_method_window.numberOfiterations) + "\n";
+                          "with n = " + std::to_string(select_method_window.numberOfiterations) + "\n";
                 break;
             default:
                 result += "Termination method: number of iterations since the last improvement is greater than n "
-                          "with n =" + std::to_string(select_method_window.numberOfiterations) + "\n";
+                          "with n = " + std::to_string(select_method_window.numberOfiterations) + "\n";
         }
     }
     else {
@@ -160,15 +160,15 @@ std::string MainWindow::run_text() {
         switch(select_method_window.terminationMethodIdG) {
             case 0:
                 result += "Termination method: ||grad f(x_{n})|| < eps "
-                          "with eps =" + std::to_string(select_method_window.epsG) + "\n";
+                          "with eps = " + std::to_string(select_method_window.epsG) + "\n";
                 break;
             case 1:
                 result += "Termination method: ||x_{n} - x_{n-1}|| < eps "
-                          "with eps =" + std::to_string(select_method_window.epsG) + "\n";
+                          "with eps = " + std::to_string(select_method_window.epsG) + "\n";
                 break;
             default:
                 result += "Termination method: ||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| < eps "
-                          "with eps =" + std::to_string(select_method_window.epsG) + "\n";
+                          "with eps = " + std::to_string(select_method_window.epsG) + "\n";
         }
     }
 
@@ -213,7 +213,7 @@ void MainWindow::on_actionRun_triggered()
 {
     optimisationMethod = run_calculation();
     std::string result = run_text();
-    ui->label_Text_style->setText(QString::fromStdString(result));
+    ui->textEdit_Text_style->setText(QString::fromStdString(result));
 }
 
 
