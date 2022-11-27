@@ -5,6 +5,7 @@
 #include "select_function.h"
 #include "select_method.h"
 #include "help.h"
+#include "../../terminalApp/mathLibrary.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,5 +32,10 @@ private slots:
     void on_actionSelect_method_triggered();
     void on_actionRun_triggered();
     void on_actionHelp_triggered();
+
+    OptimizationMethod* run_calculation();
+    std::string run_text();
+
+    OptimizationMethod* optimisationMethod;
 };
 #endif // MAINWINDOW_H
