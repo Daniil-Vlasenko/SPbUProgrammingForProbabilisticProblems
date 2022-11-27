@@ -16,24 +16,6 @@ Select_function::~Select_function()
 void Select_function::on_pushButton_OK_clicked()
 {
     functionInt = ui->comboBox->currentIndex();
-    switch(functionInt) {
-        case 0:
-            function = new Function1();
-            break;
-        case 1:
-            function = new Function2();
-            break;
-        case 2:
-            function = new Function3();
-            break;
-        default:
-            function = new Function4();
-    }
-
-    int dimensions = function->getDimensions();
-    x_0.resize(dimensions);
-    box.resize(dimensions);
-
 
     x = ui->lineEdit_x->text().toDouble();
     y = ui->lineEdit_y->text().toDouble();
@@ -44,22 +26,6 @@ void Select_function::on_pushButton_OK_clicked()
     y2 = ui->lineEdit_y2->text().toDouble();
     z1 = ui->lineEdit_z1->text().toDouble();
     z2 = ui->lineEdit_z2->text().toDouble();
-
-    x_0.push_back(x);
-    x_0.push_back(y);
-    if(dimensions > 2) {
-        x_0.push_back(z);
-    }
-
-    std::pair<double, double> b1(x1, x2);
-    std::pair<double, double> b2(y1, y2);
-    std::pair<double, double> b3(z1, z2);
-
-    box.push_back(b1);
-    box.push_back(b2);
-    if(dimensions > 2) {
-        box.push_back(b3);
-    }
 
     close();
 }

@@ -27,10 +27,7 @@ private:
     Ui::Select_function *ui;
 
     int functionInt = 0;
-    double x = 0, y = 0, z = 0, x1 = -5, x2 = 5, y1 = -5, y2 = 5, z1 = -5, z2 = 5;
-    Function *function;
-    std::vector<double> x_0;
-    std::vector<std::pair<double, double>> box;
+    double x = 0, y = 0, z = 0, x1 = -5, x2 = 5, y1 = -5, y2 = 5, z1 = -5, z2 = 5;    
 };
 
 #endif // SELECT_FUNCTION_H

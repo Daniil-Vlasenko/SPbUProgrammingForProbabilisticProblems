@@ -10,8 +10,23 @@
     <height>584</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1020</width>
+    <height>584</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1020</width>
+    <height>584</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
@@ -35,12 +50,8 @@
         <property name="text">
          <string>Stochastic method</string>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QRadioButton" name="radioButton_G">
-        <property name="text">
-         <string>Gradient descent (derived numerically)</string>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -59,7 +70,7 @@
          <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Select the parameters:</string>
+            <string>Select parameters:</string>
            </property>
           </widget>
          </item>
@@ -80,7 +91,11 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_Pb"/>
+             <widget class="QLineEdit" name="lineEdit_Pb">
+              <property name="text">
+               <string>0.5</string>
+              </property>
+             </widget>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_6">
@@ -90,10 +105,18 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEdit_Pa"/>
+             <widget class="QLineEdit" name="lineEdit_Pa">
+              <property name="text">
+               <string>0.5</string>
+              </property>
+             </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_Pp"/>
+             <widget class="QLineEdit" name="lineEdit_Pp">
+              <property name="text">
+               <string>0.5</string>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_4">
@@ -130,6 +153,9 @@
             </item>
             <item row="4" column="2">
              <widget class="QFrame" name="frame_8">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -145,7 +171,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_Pn"/>
+                <widget class="QLineEdit" name="lineEdit_Pn">
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -154,6 +184,9 @@
              <widget class="QRadioButton" name="radioButton_PT1">
               <property name="text">
                <string>||f(x_{n+j}) − f(x_{n})| &lt; eps, j = min{m: f(x_{n+m}) &lt; f(x_{n})}</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -177,7 +210,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_PEps"/>
+                <widget class="QLineEdit" name="lineEdit_PEps">
+                 <property name="text">
+                  <string>0.001</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -195,10 +232,17 @@
         </layout>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="radioButton_G">
+        <property name="text">
+         <string>Gradient descent (derived numerically)</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
        <widget class="QFrame" name="frame_5">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -210,7 +254,7 @@
          <item>
           <widget class="QLabel" name="label_13">
            <property name="text">
-            <string>Select the termination method:</string>
+            <string>Select the  termination method:</string>
            </property>
           </widget>
          </item>
@@ -224,16 +268,19 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="1" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_ST2">
+             <widget class="QRadioButton" name="radioButton_GT2">
               <property name="text">
                <string>||x_{n} - x_{n-1}|| &lt; eps</string>
               </property>
              </widget>
             </item>
             <item row="0" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_ST1">
+             <widget class="QRadioButton" name="radioButton_GT1">
               <property name="text">
                <string>||grad f(x_{n})|| &lt; eps</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -249,7 +296,7 @@
                <item>
                 <widget class="QLabel" name="label_15">
                  <property name="enabled">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                  <property name="text">
                   <string>Select eps:</string>
@@ -257,13 +304,17 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_GEps"/>
+                <widget class="QLineEdit" name="lineEdit_GEps">
+                 <property name="text">
+                  <string>0.001</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
             <item row="2" column="0" colspan="3">
-             <widget class="QRadioButton" name="radioButton_ST3">
+             <widget class="QRadioButton" name="radioButton_GT3">
               <property name="text">
                <string>||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| &lt; eps</string>
               </property>
