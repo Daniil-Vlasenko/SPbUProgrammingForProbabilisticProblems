@@ -175,7 +175,7 @@ std::string MainWindow::run_text() {
     result += "\n";
     std::vector<std::vector<double>> X_i = optimisationMethod->getSequenceOfX_i();
     std::vector<double> F_i = optimisationMethod->getSequenceOfF_i();
-    if(select_method_window.optimisationMethodId == 0)  {
+    if(dimensions < 3) {
         result += "Minimum of the function: F(" + std::to_string(X_i.back()[0]) + "; " +
                 std::to_string(X_i.back()[1]) + ") = " +
                 std::to_string(F_i.back()) + "\n";
@@ -188,6 +188,22 @@ std::string MainWindow::run_text() {
 
     int numberOfIterations = optimisationMethod->getNumberOfIterations();
     result += "Number of iterations = " + std::to_string(numberOfIterations) + "\n";
+
+    int tmp = X_i.size();
+    result += "\nInformation about the optimization process:\n";
+    if(dimensions < 3) {
+        for(int i = 0; i < tmp; ++i) {
+            result += "F(" + std::to_string(X_i[i][0]) + "; " +
+                    std::to_string(X_i[i][1]) + ") = " + std::to_string(F_i[i]) + "\n";
+        }
+    }
+    else {
+        for(int i = 0; i < tmp; ++i) {
+            result += "F(" + std::to_string(X_i[i][0]) + "; " +
+                    std::to_string(X_i[i][1]) + "; " + std::to_string(X_i[i][2]) + ") = " +
+                    std::to_string(F_i[i]) + "\n";
+        }
+    }
 
 
     return result;
