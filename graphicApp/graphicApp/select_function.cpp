@@ -34,20 +34,16 @@ void Select_function::on_pushButton_OK_clicked()
     x_0.resize(dimensions);
     box.resize(dimensions);
 
-    try {
-        x = std::stod(ui->lineEdit_x->text().toStdString());
-        y = std::stod(ui->lineEdit_y->text().toStdString());
-        z = std::stod(ui->lineEdit_z->text().toStdString());
-        x1 = std::stod(ui->lineEdit_x1->text().toStdString());
-        x2 = std::stod(ui->lineEdit_x2->text().toStdString());
-        y1 = std::stod(ui->lineEdit_y1->text().toStdString());
-        y2 = std::stod(ui->lineEdit_y2->text().toStdString());
-        z1 = std::stod(ui->lineEdit_z1->text().toStdString());
-        z2 = std::stod(ui->lineEdit_z2->text().toStdString());
-    }
-    catch(...) {
-        std::cout << "\nWrong value entered!\n";
-    }
+
+    x = ui->lineEdit_x->text().toDouble();
+    y = ui->lineEdit_y->text().toDouble();
+    z = ui->lineEdit_z->text().toDouble();
+    x1 = ui->lineEdit_x1->text().toDouble();
+    x2 = ui->lineEdit_x2->text().toDouble();
+    y1 = ui->lineEdit_y1->text().toDouble();
+    y2 = ui->lineEdit_y2->text().toDouble();
+    z1 = ui->lineEdit_z1->text().toDouble();
+    z2 = ui->lineEdit_z2->text().toDouble();
 
     x_0.push_back(x);
     x_0.push_back(y);
