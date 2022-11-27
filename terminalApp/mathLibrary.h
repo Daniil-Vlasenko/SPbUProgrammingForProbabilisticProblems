@@ -276,3 +276,4 @@ public:
 
 double partialDerivative(Function *function, int axis, std::vector<double> x, double deltaX);
 std::vector<double> antiGradient(Function *function, std::vector<double> x, double deltaX);
+double round_to(double value, double precision = 1.0);

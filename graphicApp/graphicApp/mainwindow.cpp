@@ -101,58 +101,58 @@ std::string MainWindow::run_text() {
 
     switch(select_function_window.functionId) {
         case 0:
-            result += "F = (1-x)^2 + 100(y-x^2)^2;\n";
+            result += "F = (1-x)^2 + 100(y-x^2)^2\n";
             break;
         case 1:
-            result += "F = x^2 * y^2 + (y + 1)^2;\n";
+            result += "F = x^2 * y^2 + (y + 1)^2\n";
             break;
         case 2:
-            result += "F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 + (2.625 - x + xy^3)^2;\n";
+            result += "F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 + (2.625 - x + xy^3)^2\n";
             break;
         default:
-            result += "F = 100(y -x^2)^2 + (x - 1)^2 + 100(z - y^2)^2 + (y - 1)^2;\n";
+            result += "F = 100(y -x^2)^2 + (x - 1)^2 + 100(z - y^2)^2 + (y - 1)^2\n";
     }
     int dimensions = optimisationMethod->getFunction()->getDimensions();
 
     if(dimensions <3) {
-        result += "Start point: (" + std::to_string(select_function_window.x) + ", " +
-                std::to_string(select_function_window.y) + ");";
+        result += "x_{0}: (" + std::to_string(select_function_window.x) + "; " +
+                std::to_string(select_function_window.y) + ")\n";
     }
     else {
-        result += "Start point: (" + std::to_string(select_function_window.x) + ", " +
-                std::to_string(select_function_window.y) + ", " +
-                std::to_string(select_function_window.z) + ");";
+        result += "x_{0} = (" + std::to_string(select_function_window.x) + "; " +
+                std::to_string(select_function_window.y) + "; " +
+                std::to_string(select_function_window.z) + ")\n";
     }
 
     if(dimensions <3) {
-        result += "Optimisation area: (x1, y1) = (" + std::to_string(select_function_window.x1) + ", " +
+        result += "Optimisation area: (x1; y1) = (" + std::to_string(select_function_window.x1) + "; " +
                 std::to_string(select_function_window.y1)+ "), (x2, y2) = (" +
-                std::to_string(select_function_window.x1) + ", " +std::to_string(select_function_window.y2) + ")\n;";
+                std::to_string(select_function_window.x1) + "; " +std::to_string(select_function_window.y2) + ")\n";
     }
     else {
-        result += "Optimisation area: (x1, y1, z1) = (" + std::to_string(select_function_window.x1) + ", " +
-                std::to_string(select_function_window.y1) + ", " + std::to_string(select_function_window.z1) +
-                "), (x2, y2, z3) = (" + std::to_string(select_function_window.x1) + ", " +
-                std::to_string(select_function_window.y2) + ", " + std::to_string(select_function_window.z2) + ")\n;";
+        result += "Optimisation area: (x1; y1; z1) = (" + std::to_string(select_function_window.x1) + "; " +
+                std::to_string(select_function_window.y1) + "; " + std::to_string(select_function_window.z1) +
+                "), (x2; y2; z3) = (" + std::to_string(select_function_window.x1) + "; " +
+                std::to_string(select_function_window.y2) + "; " + std::to_string(select_function_window.z2) + ")\n";
     }
 
     if(select_method_window.optimisationMethodId == 0)  {
         result += "Probability optimisation method with parameters p = " + std::to_string(select_method_window.p) +
                 ", b = " + std::to_string(select_method_window.b) + ", a = " +
-                std::to_string(select_method_window.a) + ";\n";
+                std::to_string(select_method_window.a) + "\n";
 
         switch(select_method_window.terminationMethodIdP) {
             case 0:
                 result += "Termination method: ||f(x_{n+j}) − f(x_{n})| < eps, j = min{m: f(x_{n+m}) < f(x_{n})} "
-                          "with eps =" + std::to_string(select_method_window.epsP) + ";\n";
+                          "with eps =" + std::to_string(select_method_window.epsP) + "\n";
                 break;
             case 1:
-                result += "Termination method: Number of iterations is greater than n "
-                          "with n =" + std::to_string(select_method_window.numberOfiterations) + ";\n";
+                result += "Termination method: number of iterations is greater than n "
+                          "with n =" + std::to_string(select_method_window.numberOfiterations) + "\n";
                 break;
             default:
-                result += "Termination method: Number of iterations since the last improvement is greater than n "
-                          "with n =" + std::to_string(select_method_window.numberOfiterations) + ";\n";
+                result += "Termination method: number of iterations since the last improvement is greater than n "
+                          "with n =" + std::to_string(select_method_window.numberOfiterations) + "\n";
         }
     }
     else {
@@ -160,17 +160,35 @@ std::string MainWindow::run_text() {
         switch(select_method_window.terminationMethodIdG) {
             case 0:
                 result += "Termination method: ||grad f(x_{n})|| < eps "
-                          "with eps =" + std::to_string(select_method_window.epsG) + ";\n";
+                          "with eps =" + std::to_string(select_method_window.epsG) + "\n";
                 break;
             case 1:
                 result += "Termination method: ||x_{n} - x_{n-1}|| < eps "
-                          "with eps =" + std::to_string(select_method_window.epsG) + ";\n";
+                          "with eps =" + std::to_string(select_method_window.epsG) + "\n";
                 break;
             default:
                 result += "Termination method: ||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| < eps "
-                          "with eps =" + std::to_string(select_method_window.epsG) + ";\n";
+                          "with eps =" + std::to_string(select_method_window.epsG) + "\n";
         }
     }
+
+    result += "\n";
+    std::vector<std::vector<double>> X_i = optimisationMethod->getSequenceOfX_i();
+    std::vector<double> F_i = optimisationMethod->getSequenceOfF_i();
+    if(select_method_window.optimisationMethodId == 0)  {
+        result += "Minimum of the function: F(" + std::to_string(X_i.back()[0]) + "; " +
+                std::to_string(X_i.back()[1]) + ") = " +
+                std::to_string(F_i.back()) + "\n";
+    }
+    else {
+        result += "Minimum of the function: F(" + std::to_string(X_i.back()[0]) + "; " +
+                std::to_string(X_i.back()[1]) + "; " + std::to_string(X_i.back()[2]) + ") = " +
+                std::to_string(F_i.back())  + "\n";
+    }
+
+    int numberOfIterations = optimisationMethod->getNumberOfIterations();
+    result += "Number of iterations = " + std::to_string(numberOfIterations) + "\n";
+
 
     return result;
 }

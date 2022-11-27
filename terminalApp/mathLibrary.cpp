@@ -392,3 +392,8 @@ std::vector<double> antiGradient(Function *function, std::vector<double> x, doub
     }
     return result;
 }
+
+double round_to(double value, double precision)
+{
+    return std::round(value / precision) * precision;
+}
