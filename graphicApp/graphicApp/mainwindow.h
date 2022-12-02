@@ -6,6 +6,7 @@
 #include "select_method.h"
 #include "help.h"
 #include "../../terminalApp/mathLibrary.h"
+#include "qpainter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,15 +27,19 @@ protected:
     Select_function select_function_window;
     Select_method select_method_window;
     Help help_window;
-    OptimizationMethod* optimisationMethod;
+    OptimizationMethod* optimisationMethod;    
+    bool isOptimise;
+
+    OptimizationMethod* run_calculation();
+    std::string run_text();
+    void function_print();
+    void area_print();
+    void paintEvent(QPaintEvent*) override;
 
 private slots:
     void on_actionSelect_function_triggered();
     void on_actionSelect_method_triggered();
     void on_actionRun_triggered();
     void on_actionHelp_triggered();
-
-    OptimizationMethod* run_calculation();
-    std::string run_text();
 };
 #endif // MAINWINDOW_H

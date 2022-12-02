@@ -4,6 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , isOptimise(false)
 {
     ui->setupUi(this);
 }
@@ -209,11 +210,36 @@ std::string MainWindow::run_text() {
     return result;
 }
 
+void MainWindow::function_print() {
+    QPainter painter;
+    painter.begin(this);
+}
+
+void MainWindow::area_print() {
+    QPainter painter;
+    painter.begin(this);
+
+    painter.setPen(QPen(qRgb(66, 135, 245)));
+    painter.drawLine(0, 0, 1000, 600);
+}
+
+void MainWindow::paintEvent(QPaintEvent *) {
+    if(ui->tabWidget->currentIndex() == 0 && select_function_window.functionId != 3) {
+        area_print();
+        if(isOptimise)
+            function_print();
+    }
+}
+
 void MainWindow::on_actionRun_triggered()
 {
     optimisationMethod = run_calculation();
+
     std::string result = run_text();
     ui->textEdit_Text_style->setText(QString::fromStdString(result));
+    isOptimise = true;
+
+    repaint();
 }
 
 
