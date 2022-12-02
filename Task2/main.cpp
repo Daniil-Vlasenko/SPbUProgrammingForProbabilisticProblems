@@ -5,6 +5,9 @@
 #include "/usr/include/boost/algorithm/string/classification.hpp"
 
 
+auto cmp = [](int a, int b) { return true; };
+std::set<int, decltype(cmp)> s;
+
 int main() {
     std::ifstream textFile("../text.txt");
     std::ifstream dictionaryFile("../dictionary.txt");
@@ -28,7 +31,7 @@ int main() {
             // Если встречается символ, запоминаем его и удаляем из слова.
             intTmp = word.find_first_of(".,!?:;");
             if(intTmp != -1) {
-                charTmp = word.push_back();
+                charTmp = word.back();
                 word.pop_back();
             }
             // Ищем слово в словаре.
