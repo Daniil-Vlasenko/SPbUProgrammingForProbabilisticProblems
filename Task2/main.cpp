@@ -29,7 +29,7 @@ bool stupidAlignment(std::string dicWord, std::string newWord) {
 int main() {
     std::ifstream textFile("../text.txt");
     std::ifstream dictionaryFile("../dictionary.txt");
-    std::ofstream new_textFile("../new_text.txt");
+    std::ofstream newTextFile("../new_text.txt");
     std::string oldStr, newStr;
     std::vector<std::string> wordsInLine;
     std::set<std::string> dictionary;
@@ -59,41 +59,32 @@ int main() {
                 continue;
             }
             // Если слово не найдено, ищем, на что оно похоже.
-            for(auto wordInD: dictionary) {
-                std::string isAddNewWord = "";
-                if(!stupidAlignment(wordInD, word)) {
-                    std::cout << "Do you want to add the new word to the dictionary? (y/n):";
-                    std::cin >> isAddNewWord;
-                    if(isAddNewWord == "y") {
-                        dictionary.insert(word);
+            std::string isReplaceNewWord = "n";
+            for(auto &wordInD: dictionary) {
+                if(stupidAlignment(wordInD, word)) {
+                    std::cout << "Perhaps instead of \"" + word + "\" you meant \"" + wordInD + "\"? (y/n):";
+                    std::cin >> isReplaceNewWord;
+                    if(isReplaceNewWord == "y") {
                         newStr += word + charTmp + ' ';
+                        break;
                     }
-                    else {
-                        newStr += word + charTmp + ' ';
-                    }
-                    continue;
-                }
-                std::string isReplaceNewWord = "";
-                std::cout << "Perhaps instead of \"" + word + "\" you meant \"" + wordInD + "\"? (y/n):";
-                std::cin >> isReplaceNewWord;
-                if(isReplaceNewWord == "y") {
-                    newStr += word + charTmp + ' ';
-                    continue;
-                }
-                std::cout << "Do you want to add the new word to the dictionary? (y/n):";
-                std::cin >> isAddNewWord;
-                if(isAddNewWord == "y") {
-                    dictionary.insert(word);
-                    newStr += word + charTmp + ' ';
-                }
-                else {
-                    newStr += word + charTmp + ' ';
                 }
             }
+            if(isReplaceNewWord == "n") {
+                std::string isAddNewWord;
+                std::cout << "Do you want to add \"" + word + "\" to the dictionary? (y/n):";
+                std::cin >> isAddNewWord;
+                if(isReplaceNewWord == "y") {
+                    dictionary.insert(word);
+                }
+                newStr += word + charTmp + ' ';
+            }
         }
-        
+        newTextFile << newStr << std::endl;
     }
 
-
+    textFile.close();
+    newTextFile.close();
+    dictionaryFile.close();
     return 0;
 }
