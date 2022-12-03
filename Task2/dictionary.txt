@@ -11,3 +11,10 @@ one
 DNA
 RNA
 sequencer
+Bob
+seen
+last
+month
+in
+Nebraska
+sow

@@ -6,7 +6,7 @@
 
 
 bool stupidAlignment(std::string dicWord, std::string newWord) {
-    if(abs(dicWord.size() - newWord.size()) > 1)
+    if(abs(dicWord.size() - newWord.size()) > 1 or dicWord.size() == 1)
         return false;
 
     int length = dicWord.size(), count = 0;
@@ -18,7 +18,7 @@ bool stupidAlignment(std::string dicWord, std::string newWord) {
             if(dicWord.size() == newWord.size())
                 newWord[i] = dicWord[i];
             if(dicWord.size() > newWord.size())
-                newWord.insert(i, &dicWord[i]);
+                newWord.insert(i, &dicWord[i], 1);
             if(dicWord.size() < newWord.size())
                 newWord.erase(i, 1);
         }
@@ -53,7 +53,7 @@ int main() {
                 charTmp = word.back();
                 word.pop_back();
             }
-            // Ищем слово в словаре.
+            // Ищем слово в словаре. Если нашли, то ничего не делаем.
             if(dictionary.find(word) != dictionary.end()) {
                 newStr += word + charTmp + ' ';
                 continue;
@@ -65,7 +65,7 @@ int main() {
                     std::cout << "Perhaps instead of \"" + word + "\" you meant \"" + wordInD + "\"? (y/n):";
                     std::cin >> isReplaceNewWord;
                     if(isReplaceNewWord == "y") {
-                        newStr += word + charTmp + ' ';
+                        newStr += wordInD + charTmp + ' ';
                         break;
                     }
                 }
