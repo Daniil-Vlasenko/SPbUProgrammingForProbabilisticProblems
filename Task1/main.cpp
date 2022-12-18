@@ -5,14 +5,8 @@
 
 
 bool isNumber(const std::string& s) {
-    int countOfPoints = 0;
-    for(char const &ch : s) {
-        if(ch == '.')
-            ++countOfPoints;
-        if(std::isdigit(ch) == 0 and ch != '.' or countOfPoints > 1)
-            return false;
-    }
-    return true;
+    long double ld;
+    return((std::istringstream(s) >> ld).eof());
 }
 
 int main() {
@@ -22,24 +16,23 @@ int main() {
     int count = 0;
 
     try {
-        if (!fin.is_open())
+        if(!fin.is_open())
             throw(1);
 
         // Читаем названия признаков.
         std::string tmp1, tmp2;
         getline(fin, tmp1);
-        if(tmp1.size() == 0)
+        if(tmp1.empty())
             throw(2);
         std::stringstream sin1(tmp1);
-        while (getline(sin1, tmp2, '\t')) {
+        while(getline(sin1, tmp2, '\t')) {
             ++count;
             columnsNames.push_back(tmp2);
         }
         columns.resize(count);
 
         // Читаем идивидов.
-        double tmp3;
-        while (getline(fin, tmp1)) {
+        while(getline(fin, tmp1)) {
             std::stringstream sin2(tmp1);
             for (int i = 0; i < count; ++i) {
                 sin2 >> tmp2;

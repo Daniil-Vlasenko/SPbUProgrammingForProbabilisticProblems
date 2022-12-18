@@ -59,7 +59,7 @@ int main() {
                 continue;
             }
             // Если слово не найдено, ищем, на что оно похоже.
-            std::string isReplaceNewWord = "n";
+            std::string isReplaceNewWord;
             for(auto &wordInD: dictionary) {
                 if(stupidAlignment(wordInD, word)) {
                     std::cout << "Perhaps instead of \"" + word + "\" you meant \"" + wordInD + "\"? (y/n):";
@@ -70,11 +70,11 @@ int main() {
                     }
                 }
             }
-            if(isReplaceNewWord == "n") {
+            if(isReplaceNewWord != "y") {
                 std::string isAddNewWord;
                 std::cout << "Do you want to add \"" + word + "\" to the dictionary? (y/n):";
                 std::cin >> isAddNewWord;
-                if(isReplaceNewWord == "y") {
+                if(isAddNewWord == "y") {
                     dictionary.insert(word);
                 }
                 newStr += word + charTmp + ' ';
