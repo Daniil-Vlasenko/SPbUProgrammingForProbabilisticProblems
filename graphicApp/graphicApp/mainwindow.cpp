@@ -156,7 +156,7 @@ void MainWindow::area_print() {
     int numberOfBoxes = 100;
     double max = function->calculation({x1, y1}), min = max;
     std::vector<std::vector<double>> area(numberOfBoxes);
-    for(std::vector<double> v: area) {
+    for(std::vector<double> &v: area) {
         for(int j = 0; j < numberOfBoxes; ++j) {
             std::vector<double> xy = {(double) j / numberOfBoxes * (x2 - x1),
                                       (double) j / numberOfBoxes * (y2 - y1)};
@@ -169,13 +169,15 @@ void MainWindow::area_print() {
     }
 
     // Рисуем область.
-    for(int i = 0; i < 1; ++i) {
-        for(int j = 0; j < 1; ++j) {
-             painter.setPen(QColor(1,1,1));
-             painter.drawRect(100 + (double) j / numberOfBoxes * 900,
-                              100 + (double) i / numberOfBoxes * 450,
-                              (double) 900 / numberOfBoxes,
-                              (double) 450 / numberOfBoxes);
+    for(int i = 0; i < numberOfBoxes; ++i) {
+        for(int j = 0; j < numberOfBoxes; ++j) {
+            int l = 40 + 40 * (double) (area[i][j] - min) / (max - min);
+            painter.setBrush(QBrush(QColor::fromHsl(240, 100, l)));
+            painter.setPen(QPen(QColor::fromHsl(240, 100, l)));
+            painter.drawRect(100 + (double) j / numberOfBoxes * 900,
+                             100 + (double) i / numberOfBoxes * 450,
+                             (double) 900 / numberOfBoxes,
+                             (double) 450 / numberOfBoxes);
         }
     }
 }
