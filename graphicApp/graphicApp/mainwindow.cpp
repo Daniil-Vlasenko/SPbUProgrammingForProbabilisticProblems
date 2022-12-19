@@ -153,29 +153,39 @@ void MainWindow::area_print() {
     Function* function = optimisationMethod->getFunction();
 
     // Вычисляем область.
-    int numberOfBoxes = 1000;
+    int numberOfBoxes = 100;
+    double max = function->calculation({x1, y1}), min = max;
     std::vector<std::vector<double>> area(numberOfBoxes);
     for(std::vector<double> v: area) {
         for(int j = 0; j < numberOfBoxes; ++j) {
-            std::vector<double> xy = {j / numberOfBoxes * (x2 - x1),
-                                      j / numberOfBoxes * (y2 - y1)};
+            std::vector<double> xy = {(double) j / numberOfBoxes * (x2 - x1),
+                                      (double) j / numberOfBoxes * (y2 - y1)};
             v.push_back(function->calculation(xy));
+            if(v.back() < min)
+                min = v.back();
+            if(v.back() > max)
+                max = v.back();
         }
     }
 
     // Рисуем область.
-//    for(int i = )
+    for(int i = 0; i < 1; ++i) {
+        for(int j = 0; j < 1; ++j) {
+             painter.setPen(QColor(1,1,1));
+             painter.drawRect(100 + (double) j / numberOfBoxes * 900,
+                              100 + (double) i / numberOfBoxes * 450,
+                              (double) 900 / numberOfBoxes,
+                              (double) 450 / numberOfBoxes);
+        }
+    }
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
     axec_print();
-
     if(isOptimise) {
         area_print();
         function_print();
     }
-
-
 }
 
 void MainWindow::on_actionRun_triggered()
