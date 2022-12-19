@@ -104,6 +104,17 @@ void MainWindow::function_print() {
         painter.drawLine(550 + sequenceOfX_i[i][0] / (x2 - x1) * 900, 325 + sequenceOfX_i[i][1] / (y2 - y1) * 450,
                 550 + sequenceOfX_i[i + 1][0] / (x2 - x1) * 900, 325 + sequenceOfX_i[i + 1][1] / (y2 - y1) * 450);
     }
+    painter.setPen(QPen(Qt::red, 4));
+    painter.drawPoint(550 + sequenceOfX_i[0][0] / (x2 - x1) * 900,
+                      325 + sequenceOfX_i[0][1] / (y2 - y1) * 450);
+    painter.setPen(QPen(Qt::green, 4));
+    painter.drawPoint(550 + sequenceOfX_i.back()[0] / (x2 - x1) * 900,
+                      325 + sequenceOfX_i.back()[1] / (y2 - y1) * 450);
+//    painter.drawEllipse(QPointF(550 + sequenceOfX_i[0][0] / (x2 - x1) * 900,
+//                                325 + sequenceOfX_i[0][1] / (y2 - y1) * 450), 2, 2);
+//    painter.drawEllipse(QPointF(550 + sequenceOfX_i.back()[0] / (x2 - x1) * 900,
+//                                325 + sequenceOfX_i.back()[1] / (y2 - y1) * 450), 1, 1);
+
 }
 
 void MainWindow::area_print() {
