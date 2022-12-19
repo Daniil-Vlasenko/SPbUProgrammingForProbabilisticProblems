@@ -35,30 +35,22 @@ OptimizationMethod* MainWindow::run_calculation() {
         case 1:
             function = new Function2();
             break;
-        case 2:
-            function = new Function3();
-            break;
         default:
-            function = new Function4();
+            function = new Function3();
+
     }
     int dimensions = function->getDimensions();
 
     std::vector<double> x_0;
     x_0.push_back(select_function_window.x);
     x_0.push_back(select_function_window.y);
-    if(dimensions > 2) {
-        x_0.push_back(select_function_window.z);
-    }
 
     std::vector<std::pair<double, double>> box;
     std::pair<double, double> b1(select_function_window.x1, select_function_window.x2);
-    std::pair<double, double> b2(select_function_window.y1, select_function_window.y2);
-    std::pair<double, double> b3(select_function_window.z1, select_function_window.z2);
+    std::pair<double, double> b2(select_function_window.y1, select_function_window.y2);    
     box.push_back(b1);
     box.push_back(b2);
-    if(dimensions > 2) {
-        box.push_back(b3);
-    }
+
     Area area(box);
 
     OptimizationMethod *optimizationMethod;
@@ -97,119 +89,6 @@ OptimizationMethod* MainWindow::run_calculation() {
     return optimizationMethod;
 }
 
-std::string MainWindow::run_text() {
-    std::string result = "";
-
-    switch(select_function_window.functionId) {
-        case 0:
-            result += "F = (1-x)^2 + 100(y-x^2)^2\n";
-            break;
-        case 1:
-            result += "F = x^2 * y^2 + (y + 1)^2\n";
-            break;
-        case 2:
-            result += "F = (1.5 - x + xy)^2 + (2.25 - x + x * y^2)^2 + (2.625 - x + xy^3)^2\n";
-            break;
-        default:
-            result += "F = 100(y -x^2)^2 + (x - 1)^2 + 100(z - y^2)^2 + (y - 1)^2\n";
-    }
-    int dimensions = optimisationMethod->getFunction()->getDimensions();
-
-    if(dimensions <3) {
-        result += "x_{0}: (" + std::to_string(select_function_window.x) + "; " +
-                std::to_string(select_function_window.y) + ")\n";
-    }
-    else {
-        result += "x_{0} = (" + std::to_string(select_function_window.x) + "; " +
-                std::to_string(select_function_window.y) + "; " +
-                std::to_string(select_function_window.z) + ")\n";
-    }
-
-    if(dimensions <3) {
-        result += "Optimisation area: (x1; y1) = (" + std::to_string(select_function_window.x1) + "; " +
-                std::to_string(select_function_window.y1)+ "), (x2, y2) = (" +
-                std::to_string(select_function_window.x1) + "; " +std::to_string(select_function_window.y2) + ")\n";
-    }
-    else {
-        result += "Optimisation area: (x1; y1; z1) = (" + std::to_string(select_function_window.x1) + "; " +
-                std::to_string(select_function_window.y1) + "; " + std::to_string(select_function_window.z1) +
-                "), (x2; y2; z3) = (" + std::to_string(select_function_window.x1) + "; " +
-                std::to_string(select_function_window.y2) + "; " + std::to_string(select_function_window.z2) + ")\n";
-    }
-
-    if(select_method_window.optimisationMethodId == 0)  {
-        result += "Probability optimisation method with parameters p = " + std::to_string(select_method_window.p) +
-                ", b = " + std::to_string(select_method_window.b) + ", a = " +
-                std::to_string(select_method_window.a) + "\n";
-
-        switch(select_method_window.terminationMethodIdP) {
-            case 0:
-                result += "Termination method: ||f(x_{n+j}) − f(x_{n})| < eps, j = min{m: f(x_{n+m}) < f(x_{n})} "
-                          "with eps = " + std::to_string(select_method_window.epsP) + "\n";
-                break;
-            case 1:
-                result += "Termination method: number of iterations is greater than n "
-                          "with n = " + std::to_string(select_method_window.numberOfiterations) + "\n";
-                break;
-            default:
-                result += "Termination method: number of iterations since the last improvement is greater than n "
-                          "with n = " + std::to_string(select_method_window.numberOfiterations) + "\n";
-        }
-    }
-    else {
-        result += "Gradient optimisation method;\n";
-        switch(select_method_window.terminationMethodIdG) {
-            case 0:
-                result += "Termination method: ||grad f(x_{n})|| < eps "
-                          "with eps = " + std::to_string(select_method_window.epsG) + "\n";
-                break;
-            case 1:
-                result += "Termination method: ||x_{n} - x_{n-1}|| < eps "
-                          "with eps = " + std::to_string(select_method_window.epsG) + "\n";
-                break;
-            default:
-                result += "Termination method: ||(f(x_{n}) - f(x_{n-1}))/f(x_n)|| < eps "
-                          "with eps = " + std::to_string(select_method_window.epsG) + "\n";
-        }
-    }
-
-    result += "\n";
-    std::vector<std::vector<double>> X_i = optimisationMethod->getSequenceOfX_i();
-    std::vector<double> F_i = optimisationMethod->getSequenceOfF_i();
-    if(dimensions < 3) {
-        result += "Minimum of the function: F(" + std::to_string(X_i.back()[0]) + "; " +
-                std::to_string(X_i.back()[1]) + ") = " +
-                std::to_string(F_i.back()) + "\n";
-    }
-    else {
-        result += "Minimum of the function: F(" + std::to_string(X_i.back()[0]) + "; " +
-                std::to_string(X_i.back()[1]) + "; " + std::to_string(X_i.back()[2]) + ") = " +
-                std::to_string(F_i.back())  + "\n";
-    }
-
-    int numberOfIterations = optimisationMethod->getNumberOfIterations();
-    result += "Number of iterations = " + std::to_string(numberOfIterations) + "\n";
-
-    int tmp = X_i.size();
-    result += "\nInformation about the optimization process:\n";
-    if(dimensions < 3) {
-        for(int i = 0; i < tmp; ++i) {
-            result += "F(" + std::to_string(X_i[i][0]) + "; " +
-                    std::to_string(X_i[i][1]) + ") = " + std::to_string(F_i[i]) + "\n";
-        }
-    }
-    else {
-        for(int i = 0; i < tmp; ++i) {
-            result += "F(" + std::to_string(X_i[i][0]) + "; " +
-                    std::to_string(X_i[i][1]) + "; " + std::to_string(X_i[i][2]) + ") = " +
-                    std::to_string(F_i[i]) + "\n";
-        }
-    }
-
-
-    return result;
-}
-
 void MainWindow::function_print() {
     QPainter painter;
     painter.begin(this);
@@ -224,19 +103,16 @@ void MainWindow::area_print() {
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
-    if(ui->tabWidget->currentIndex() == 0 && select_function_window.functionId != 3) {
-        area_print();
-        if(isOptimise)
-            function_print();
-    }
+    area_print();
+    if(isOptimise)
+        function_print();
+
 }
 
 void MainWindow::on_actionRun_triggered()
 {
     optimisationMethod = run_calculation();
 
-    std::string result = run_text();
-    ui->textEdit_Text_style->setText(QString::fromStdString(result));
     isOptimise = true;
 
     repaint();

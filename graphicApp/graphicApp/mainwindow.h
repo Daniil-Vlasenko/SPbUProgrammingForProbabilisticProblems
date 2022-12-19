@@ -30,8 +30,7 @@ protected:
     OptimizationMethod* optimisationMethod;    
     bool isOptimise;
 
-    OptimizationMethod* run_calculation();
-    std::string run_text();
+    OptimizationMethod* run_calculation();   
     void function_print();
     void area_print();
     void paintEvent(QPaintEvent*) override;
