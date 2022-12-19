@@ -98,8 +98,33 @@ void MainWindow::area_print() {
     QPainter painter;
     painter.begin(this);
 
-    painter.setPen(QPen(qRgb(66, 135, 245)));
-    painter.drawLine(0, 0, 1000, 600);
+    // Рисуем оси.
+    painter.drawLine(50, 100, 970, 100);
+    painter.drawLine(50, 100, 50, 570);
+    painter.drawLine(965, 105, 970, 100);
+    painter.drawLine(965, 95, 970, 100);
+    painter.drawLine(45, 565, 50, 570);
+    painter.drawLine(55, 565, 50, 570);
+    painter.drawText(965, 90, "x");
+    painter.drawText(30, 575, "y");
+    double x1 = select_function_window.x1;
+    double x2 = select_function_window.x2;
+    painter.drawText(45, 90, QString::number(x1));
+    double y1 = select_function_window.y1;
+    double y2 = select_function_window.y2;
+    painter.drawText(30, 110, QString::number(y1));
+    for(int i = 1; i <= 10; ++i) {
+        double x = 50 + 900 / 10 * i,
+            y = 100 + 450 / 10 * i;
+        double xText = (double) i / 10 * (x2 - x1) + x1,
+            yText = (double) i / 10 * (y2 - y1) + y1;
+
+        painter.drawLine(x, 103, x, 97);
+        painter.drawText(x - 5, 90, QString::number(xText));
+        painter.drawLine(47, y, 53, y);
+        painter.drawText(30, y + 5, QString::number(yText));
+    }
+
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
