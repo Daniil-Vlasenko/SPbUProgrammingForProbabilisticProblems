@@ -92,6 +92,18 @@ OptimizationMethod* MainWindow::run_calculation() {
 void MainWindow::function_print() {
     QPainter painter;
     painter.begin(this);
+
+    // Рисуем кривую.
+    double x1 = select_function_window.x1;
+    double x2 = select_function_window.x2;
+    double y1 = select_function_window.y1;
+    double y2 = select_function_window.y2;
+    std::vector<std::vector<double>> sequenceOfX_i = optimisationMethod->getSequenceOfX_i();
+    int length = sequenceOfX_i.size();
+    for(int i = 0; i < length - 1; ++i) {
+        painter.drawLine(550 + sequenceOfX_i[i][0] / (x2 - x1) * 900, 325 + sequenceOfX_i[i][1] / (y2 - y1) * 450,
+                550 + sequenceOfX_i[i + 1][0] / (x2 - x1) * 900, 325 + sequenceOfX_i[i + 1][1] / (y2 - y1) * 450);
+    }
 }
 
 void MainWindow::area_print() {
@@ -120,9 +132,8 @@ void MainWindow::area_print() {
         painter.drawLine(x, 53, x, 47);
         painter.drawText(x - 5, 70, QString::number(xText, 'g', 2));
         painter.drawLine(22, y, 28, y);
-        painter.drawText(35, y + 5, QString::number(yText));
+        painter.drawText(35, y + 5, QString::number(yText, 'g', 2));
     }
-
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
