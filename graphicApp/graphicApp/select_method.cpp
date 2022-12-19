@@ -17,6 +17,7 @@ void Select_method::on_radioButton_G_clicked()
 {
     ui->frame_3->setDisabled(1);
     ui->frame_5->setEnabled(1);
+    ui->radioButton_P->setChecked(0);
 }
 
 
@@ -24,6 +25,7 @@ void Select_method::on_radioButton_P_clicked()
 {
     ui->frame_5->setDisabled(1);
     ui->frame_3->setEnabled(1);
+    ui->radioButton_G->setChecked(0);
 }
 
 
