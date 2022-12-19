@@ -33,6 +33,7 @@ protected:
     OptimizationMethod* run_calculation();   
     void function_print();
     void area_print();
+    void axec_print();
     void paintEvent(QPaintEvent*) override;
 
 private slots:

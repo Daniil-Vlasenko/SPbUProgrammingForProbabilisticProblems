@@ -110,18 +110,13 @@ void MainWindow::function_print() {
     painter.setPen(QPen(Qt::green, 4));
     painter.drawPoint(550 + sequenceOfX_i.back()[0] / (x2 - x1) * 900,
                       325 + sequenceOfX_i.back()[1] / (y2 - y1) * 450);
-//    painter.drawEllipse(QPointF(550 + sequenceOfX_i[0][0] / (x2 - x1) * 900,
-//                                325 + sequenceOfX_i[0][1] / (y2 - y1) * 450), 2, 2);
-//    painter.drawEllipse(QPointF(550 + sequenceOfX_i.back()[0] / (x2 - x1) * 900,
-//                                325 + sequenceOfX_i.back()[1] / (y2 - y1) * 450), 1, 1);
 
 }
 
-void MainWindow::area_print() {
+void MainWindow::axec_print() {
     QPainter painter;
     painter.begin(this);
 
-    // Рисуем оси.
     painter.drawLine(100, 50, 1020, 50);
     painter.drawLine(25, 100, 25, 570);
     painter.drawLine(1015, 55, 1020, 50);
@@ -147,20 +142,55 @@ void MainWindow::area_print() {
     }
 }
 
+void MainWindow::area_print() {
+    QPainter painter;
+    painter.begin(this);
+
+    double x1 = select_function_window.x1;
+    double x2 = select_function_window.x2;
+    double y1 = select_function_window.y1;
+    double y2 = select_function_window.y2;
+    Function* function = optimisationMethod->getFunction();
+
+    // Вычисляем область.
+    int numberOfBoxes = 1000;
+    std::vector<std::vector<double>> area(numberOfBoxes);
+    for(std::vector<double> v: area) {
+        for(int j = 0; j < numberOfBoxes; ++j) {
+            std::vector<double> xy = {j / numberOfBoxes * (x2 - x1),
+                                      j / numberOfBoxes * (y2 - y1)};
+            v.push_back(function->calculation(xy));
+        }
+    }
+
+    // Рисуем область.
+//    for(int i = )
+}
+
 void MainWindow::paintEvent(QPaintEvent *) {
-    area_print();
-    if(isOptimise)
+    axec_print();
+
+    if(isOptimise) {
+        area_print();
         function_print();
+    }
+
 
 }
 
 void MainWindow::on_actionRun_triggered()
 {
     optimisationMethod = run_calculation();
-
     isOptimise = true;
-
+    // Рисуем кривую.
     repaint();
+    // Выводим текст.
+    std::vector<double> X_n = optimisationMethod->getSequenceOfX_i().back();
+    double sequenceOfF_n = optimisationMethod->getSequenceOfF_i().back();
+    int numberOfIterations = optimisationMethod->getNumberOfIterations();
+    std::string result = "X_n = (" + std::to_string(X_n[0]) + "; " + std::to_string(X_n[1]) + "); F_n = " +
+            std::to_string(sequenceOfF_n) + "; Number of iterations = " + std::to_string(numberOfIterations) + ".";
+    ui->label->setText(QString::fromStdString(result));
 }
 
 
