@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "../../terminalApp/mathLibrary.h"
 
+
 namespace Ui {
 class Select_function;
 }

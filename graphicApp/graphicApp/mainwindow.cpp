@@ -7,6 +7,67 @@ MainWindow::MainWindow(QWidget *parent)
     , isOptimise(false)
 {
     ui->setupUi(this);
+
+    // Определяем метод оптимизации, чтобы была возможность рисовать область при открытии приложения
+    // без нажатия run.
+
+    Function *function;
+    switch(select_function_window.functionId) {
+        case 0:
+            function = new Function1();
+            break;
+        case 1:
+            function = new Function2();
+            break;
+        default:
+            function = new Function3();
+
+    }
+    int dimensions = function->getDimensions();
+
+    std::vector<double> x_0;
+    x_0.push_back(select_function_window.x);
+    x_0.push_back(select_function_window.y);
+
+    std::vector<std::pair<double, double>> box;
+    std::pair<double, double> b1(select_function_window.x1, select_function_window.x2);
+    std::pair<double, double> b2(select_function_window.y1, select_function_window.y2);
+    box.push_back(b1);
+    box.push_back(b2);
+
+    Area area(box);
+
+    OptimizationMethod *optimizationMethod;
+    TerminationMethod *terminationMethod;
+    if(select_method_window.optimisationMethodId == 0)  {
+        switch(select_method_window.terminationMethodIdP) {
+            case 0:
+                terminationMethod = new TerminationMethodProb1(select_method_window.epsP);
+                break;
+            case 1:
+                terminationMethod = new TerminationMethodProb2(select_method_window.numberOfiterations);
+                break;
+            default:
+                terminationMethod = new TerminationMethodProb3(select_method_window.numberOfiterations);
+        }
+        this->optimisationMethod = new OptimizationMethodProb(function, x_0, area, terminationMethod,
+                                                        select_method_window.p, select_method_window.b,
+                                                        select_method_window.a);
+    }
+    else {
+        switch(select_method_window.terminationMethodIdG) {
+            case 0:
+                terminationMethod = new TerminationMethodGrad1(select_method_window.epsG);
+                break;
+            case 1:
+                terminationMethod = new TerminationMethodGrad2(select_method_window.epsG);
+                break;
+            default:
+                terminationMethod = new TerminationMethodGrad3(select_method_window.epsG);
+        }
+        this->optimisationMethod = new OptimizationMethodGrad(function, x_0, area, terminationMethod);
+    }
+
 }
 
 MainWindow::~MainWindow()
@@ -153,14 +214,14 @@ void MainWindow::area_print() {
     Function* function = optimisationMethod->getFunction();
 
     // Вычисляем область.
-    int numberOfBoxes = 100;
+    int numberOfBoxesy = 90, numberOfBoxesx = 180;
     double max = function->calculation({x1, y1}), min = max;
-    std::vector<std::vector<double>> area(numberOfBoxes);
-    for(int i = 0; i < numberOfBoxes; ++i) {
-        area[i].resize(numberOfBoxes);
-        for(int j = 0; j < numberOfBoxes; ++j) {
-            std::vector<double> xy = {x1 + (double) j / numberOfBoxes * (x2 - x1),
-                                      y1 + (double) i / numberOfBoxes * (y2 - y1)};
+    std::vector<std::vector<double>> area(numberOfBoxesy);
+    for(int i = 0; i < numberOfBoxesy; ++i) {
+        area[i].resize(numberOfBoxesx);
+        for(int j = 0; j < numberOfBoxesx; ++j) {
+            std::vector<double> xy = {x1 + (double) j / numberOfBoxesx * (x2 - x1),
+                                      y1 + (double) i / numberOfBoxesy * (y2 - y1)};
             area[i][j] = (function->calculation(xy));
             if(area[i][j]< min)
                 min = area[i][j];
@@ -170,23 +231,23 @@ void MainWindow::area_print() {
     }
 
     // Рисуем область.
-    for(int i = 0; i < numberOfBoxes; ++i) {
-        for(int j = 0; j < numberOfBoxes; ++j) {
-            int l = 40 + 100 * (double) (area[i][j] - min) / (max - min);
+    for(int i = 0; i < numberOfBoxesy; ++i) {
+        for(int j = 0; j < numberOfBoxesx; ++j) {
+            int l = 50 + 100 * (double) (area[i][j] - min) / (max - min);
             painter.setBrush(QBrush(QColor::fromHsl(240, 100, l)));
             painter.setPen(QPen(QColor::fromHsl(240, 100, l)));
-            painter.drawRect(100 + (double) j / numberOfBoxes * 900,
-                             100 + (double) i / numberOfBoxes * 450,
-                             (double) 900 / numberOfBoxes,
-                             (double) 450 / numberOfBoxes);
+            painter.drawRect(100 + (double) j / numberOfBoxesx * 900,
+                             100 + (double) i / numberOfBoxesy * 450,
+                             (double) 900 / numberOfBoxesx,
+                             (double) 450 / numberOfBoxesy);
         }
     }
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
     axec_print();
+    area_print();
     if(isOptimise) {
-        area_print();
         function_print();
     }
 }

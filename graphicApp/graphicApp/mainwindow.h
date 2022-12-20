@@ -29,6 +29,7 @@ protected:
     Help help_window;
     OptimizationMethod* optimisationMethod;    
     bool isOptimise;
+    bool isAreaDrawn;
 
     OptimizationMethod* run_calculation();   
     void function_print();
