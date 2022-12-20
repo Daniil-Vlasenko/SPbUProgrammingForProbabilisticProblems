@@ -19,15 +19,18 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionSelect_function_triggered()
 {
     select_function_window.exec();
+    isOptimise = false;
     make_optimisationMethod();
-    area_print();
+    repaint();
 }
 
 
 void MainWindow::on_actionSelect_method_triggered()
 {
     select_method_window.exec();
+    isOptimise = false;
     make_optimisationMethod();
+    repaint();
 }
 
 void MainWindow::make_optimisationMethod() {
@@ -86,11 +89,6 @@ void MainWindow::make_optimisationMethod() {
         }
         this->optimisationMethod = new OptimizationMethodGrad(function, x_0, area, terminationMethod);
     }
-}
-
-void MainWindow::run_calculation() {
-    make_optimisationMethod();
-    optimisationMethod->optimization();
 }
 
 void MainWindow::function_print() {
@@ -197,7 +195,8 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
 void MainWindow::on_actionRun_triggered()
 {
-    run_calculation();
+    make_optimisationMethod();
+    optimisationMethod->optimization();
     isOptimise = true;
     // Рисуем кривую.
     repaint();

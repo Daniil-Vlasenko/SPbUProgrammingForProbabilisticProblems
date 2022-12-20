@@ -32,7 +32,6 @@ protected:
     bool isAreaDrawn;
 
     void make_optimisationMethod();
-    void run_calculation();
     void function_print();
     void area_print();
     void axec_print();
