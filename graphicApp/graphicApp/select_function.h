@@ -26,6 +26,10 @@ private slots:
 
     void on_pushButton_Cancel_clicked();
 
+    void on_lineEdit_x_editingFinished();
+
+    void on_lineEdit_y_editingFinished();
+
 private:
     Ui::Select_function *ui;     
 };

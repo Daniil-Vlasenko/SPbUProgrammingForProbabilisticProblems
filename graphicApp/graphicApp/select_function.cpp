@@ -11,13 +11,9 @@ Select_function::Select_function(QWidget *parent) :
     lo.setNumberOptions(QLocale::RejectGroupSeparator);
     auto val = new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this);
     val->setLocale(lo);
-    auto valx = new QDoubleValidator(-5, x2, 10, this);
-    valx->setLocale(lo);
-    auto valy = new QDoubleValidator(y1, y2, 10, this);
-    valy->setLocale(lo);
 
-    ui->lineEdit_x->setValidator(valx);
-    ui->lineEdit_y->setValidator(valy);
+    ui->lineEdit_x->setValidator(val);
+    ui->lineEdit_y->setValidator(val);
     ui->lineEdit_x1->setValidator(val);
     ui->lineEdit_x2->setValidator(val);
     ui->lineEdit_y1->setValidator(val);
@@ -33,11 +29,6 @@ void Select_function::on_pushButton_OK_clicked()
 {
     functionId = ui->comboBox->currentIndex();    
 
-//    if(isNumber(ui->lineEdit_x->text().toStdString()) and isNumber(ui->lineEdit_y->text().toStdString()) and
-//       isNumber(ui->lineEdit_x1->text().toStdString()) and isNumber(ui->lineEdit_y1->text().toStdString()) and
-//       isNumber(ui->lineEdit_x2->text().toStdString()) and isNumber(ui->lineEdit_y2->text().toStdString())) {
-
-//    }
     x = ui->lineEdit_x->text().toDouble();
     y = ui->lineEdit_y->text().toDouble();
     x1 = ui->lineEdit_x1->text().toDouble();
@@ -51,5 +42,36 @@ void Select_function::on_pushButton_OK_clicked()
 void Select_function::on_pushButton_Cancel_clicked()
 {
     close();
+}
+
+
+void Select_function::on_lineEdit_x_editingFinished()
+{
+    x = ui->lineEdit_x->text().toDouble();
+    x1 = ui->lineEdit_x1->text().toDouble();
+    x2 = ui->lineEdit_x2->text().toDouble();
+
+    if(x < x1) {
+        ui->lineEdit_x->setText(QString::number(x1));
+    }
+    if(x > x2) {
+        ui->lineEdit_x->setText(QString::number(x2));
+    }
+
+}
+
+
+void Select_function::on_lineEdit_y_editingFinished()
+{
+    y = ui->lineEdit_y->text().toDouble();
+    y1 = ui->lineEdit_y1->text().toDouble();
+    y2 = ui->lineEdit_y2->text().toDouble();
+
+    if(y < y1) {
+        ui->lineEdit_y->setText(QString::number(y1));
+    }
+    if(y > y2) {
+        ui->lineEdit_y->setText(QString::number(y2));
+    }
 }
 
