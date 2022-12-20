@@ -192,9 +192,10 @@ void MainWindow::area_print() {
     // Рисуем область.
     for(int i = 0; i < numberOfBoxesy; ++i) {
         for(int j = 0; j < numberOfBoxesx; ++j) {
-            int l = 50 + 100 * (double) (area[i][j] - min) / (max - min);
-            painter.setBrush(QBrush(QColor::fromHsl(240, 100, l)));
-            painter.setPen(QPen(QColor::fromHsl(240, 100, l)));
+            int l = 0 + 200 * (double) (area[i][j] - min) / (max - min);
+            int h = 240, s = 200;
+            painter.setBrush(QBrush(QColor::fromHsl(h, s, l)));
+            painter.setPen(QPen(QColor::fromHsl(h, s, l)));
             painter.drawRect(100 + (double) j / numberOfBoxesx * 900,
                              100 + (double) i / numberOfBoxesy * 450,
                              (double) 900 / numberOfBoxesx,
