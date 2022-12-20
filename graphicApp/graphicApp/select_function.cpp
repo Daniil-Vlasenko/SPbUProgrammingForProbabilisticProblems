@@ -6,12 +6,18 @@ Select_function::Select_function(QWidget *parent) :
     ui(new Ui::Select_function)
 {
     ui->setupUi(this);
-    ui->lineEdit_x->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
-    ui->lineEdit_y->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
-    ui->lineEdit_x1->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
-    ui->lineEdit_x2->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
-    ui->lineEdit_y1->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
-    ui->lineEdit_y2->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
+
+    QLocale lo(QLocale::C);
+    lo.setNumberOptions(QLocale::RejectGroupSeparator);
+    auto val = new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this);
+    val->setLocale(lo);
+
+    ui->lineEdit_x->setValidator(val);
+    ui->lineEdit_y->setValidator(val);
+    ui->lineEdit_x1->setValidator(val);
+    ui->lineEdit_x2->setValidator(val);
+    ui->lineEdit_y1->setValidator(val);
+    ui->lineEdit_y2->setValidator(val);
 }
 
 Select_function::~Select_function()
