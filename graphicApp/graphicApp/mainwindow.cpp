@@ -23,14 +23,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
     double y1 = select_function_window.y1;
     double y2 = select_function_window.y2;
 
-    auto i = event->pos();
-
     double x = ((double) event->pos().x() - 550) / 900 * (x2 - x1),
         y = ((double) event->pos().y() - 325) / 450 * (y2 - y1);
 
-    select_function_window.x = x;
-    select_function_window.y = y;
-    on_actionRun_triggered();
+    if(x > x1 and x < x2 and y > y1 and y < y2) {
+        select_function_window.x = x;
+        select_function_window.y = y;
+        on_actionRun_triggered();
+    }
 }
 
 

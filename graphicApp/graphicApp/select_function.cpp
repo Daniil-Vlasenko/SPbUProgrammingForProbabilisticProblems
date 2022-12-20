@@ -11,9 +11,13 @@ Select_function::Select_function(QWidget *parent) :
     lo.setNumberOptions(QLocale::RejectGroupSeparator);
     auto val = new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this);
     val->setLocale(lo);
+    auto valx = new QDoubleValidator(-5, x2, 10, this);
+    valx->setLocale(lo);
+    auto valy = new QDoubleValidator(y1, y2, 10, this);
+    valy->setLocale(lo);
 
-    ui->lineEdit_x->setValidator(val);
-    ui->lineEdit_y->setValidator(val);
+    ui->lineEdit_x->setValidator(valx);
+    ui->lineEdit_y->setValidator(valy);
     ui->lineEdit_x1->setValidator(val);
     ui->lineEdit_x2->setValidator(val);
     ui->lineEdit_y1->setValidator(val);
