@@ -7,6 +7,8 @@
 #include "help.h"
 #include "../../terminalApp/mathLibrary.h"
 #include "qpainter.h"
+#include <QMouseEvent>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,6 +38,8 @@ protected:
     void area_print();
     void axec_print();
     void paintEvent(QPaintEvent*) override;
+    void mousePressEvent(QMouseEvent *event) override;
+
 
 private slots:
     void on_actionSelect_function_triggered();
