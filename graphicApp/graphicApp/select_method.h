@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "../../terminalApp/mathLibrary.h"
+#include "qvalidator.h"
 
 namespace Ui {
 class Select_method;

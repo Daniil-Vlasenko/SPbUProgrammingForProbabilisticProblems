@@ -5,7 +5,13 @@ Select_method::Select_method(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Select_method)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
+    ui->lineEdit_GEps->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
+    ui->lineEdit_PEps->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
+    ui->lineEdit_Pa->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
+    ui->lineEdit_Pp->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
+    ui->lineEdit_Pb->setValidator(new QDoubleValidator(-MAXFLOAT, MAXFLOAT, 10, this));
+    ui->lineEdit_Pn->setValidator(new QIntValidator());
 }
 
 Select_method::~Select_method()
