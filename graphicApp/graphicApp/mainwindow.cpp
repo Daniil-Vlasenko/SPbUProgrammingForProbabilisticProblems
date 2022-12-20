@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , isOptimise(false)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
 
     // Определяем метод оптимизации, чтобы была возможность рисовать область при открытии приложения
     // без нажатия run.
@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
             function = new Function3();
 
     }
-    int dimensions = function->getDimensions();
 
     std::vector<double> x_0;
     x_0.push_back(select_function_window.x);

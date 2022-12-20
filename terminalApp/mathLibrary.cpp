@@ -397,3 +397,8 @@ double round_to(double value, double precision)
 {
     return std::round(value / precision) * precision;
 }
+
+bool isNumber(const std::string& s) {
+    long double ld;
+    return((std::istringstream(s) >> ld).eof());
+}
