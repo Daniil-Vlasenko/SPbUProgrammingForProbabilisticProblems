@@ -25,8 +25,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
 
     auto i = event->pos();
 
-    int x = (double) (event->pos().x() - 550) / 900 * (x2 - x1),
-        y = (double) (event->pos().y() - 325) / 450 * (y2 - y1);
+    double x = ((double) event->pos().x() - 550) / 900 * (x2 - x1),
+        y = ((double) event->pos().y() - 325) / 450 * (y2 - y1);
 
     select_function_window.x = x;
     select_function_window.y = y;
