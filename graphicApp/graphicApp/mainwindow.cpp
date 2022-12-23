@@ -23,8 +23,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
     double y1 = select_function_window.y1;
     double y2 = select_function_window.y2;
 
-    double x = ((double) event->pos().x() - 550) / 900 * (x2 - x1),
-        y = ((double) event->pos().y() - 325) / 450 * (y2 - y1);
+    double xx = event->pos().x(),
+        yy = event->pos().y();
+
+//    double x = ((double) event->pos().x() - 550) / 900 * (x2 - x1),
+//        y = ((double) event->pos().y() - 325) / 450 * (y2 - y1);
+
+    double x = ((double) event->pos().x() - 100) / 900 * (x2 - x1) + x1,
+        y = ((double) event->pos().y() - 100) / 450 * (y2 - y1) + y1;
 
     if(x > x1 and x < x2 and y > y1 and y < y2) {
         select_function_window.x = x;
@@ -220,10 +226,12 @@ void MainWindow::on_actionRun_triggered()
     // Рисуем кривую.
     repaint();
     // Выводим текст.
-    std::vector<double> X_n = optimisationMethod->getSequenceOfX_i().back();
+    std::vector<double> X_1 = optimisationMethod->getSequenceOfX_i()[0],
+            X_n = optimisationMethod->getSequenceOfX_i().back();
     double sequenceOfF_n = optimisationMethod->getSequenceOfF_i().back();
     int numberOfIterations = optimisationMethod->getNumberOfIterations();
-    std::string result = "X_n = (" + std::to_string(X_n[0]) + "; " + std::to_string(X_n[1]) + "); F_n = " +
+    std::string result = "X_1 = (" + std::to_string(X_1[0]) + "; " + std::to_string(X_1[1]) + "); " +
+            "X_n = (" + std::to_string(X_n[0]) + "; " + std::to_string(X_n[1]) + "); F_n = " +
             std::to_string(sequenceOfF_n) + "; Number of iterations = " + std::to_string(numberOfIterations) + ".";
     ui->label->setText(QString::fromStdString(result));
 }
